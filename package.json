@@ -3,9 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "express-session": "^1.15.6",
+    "node-spotify-api": "^1.0.7",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "passport-spotify": "^1.0.0",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "querystring": "^0.2.0",
+    "request": "^2.81.0"
   },
   "scripts": {
     "start": "react-scripts start",
