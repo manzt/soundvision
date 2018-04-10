@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 const userSchema = mongoose.Schema({
   spotifyID: {
     type: String,
@@ -21,6 +20,4 @@ const userSchema = mongoose.Schema({
   },
 });
 
-module.exports = {
-  User: mongoose.model('User', userSchema)
-};
+module.exports = { User: mongoose.model('User', userSchema) };

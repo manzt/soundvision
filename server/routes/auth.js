@@ -13,6 +13,7 @@ module.exports = function(passport) {
   router.get('/callback',
   passport.authenticate('spotify', { successRedirect: '/helloworld', failureRedirect: '/login' }),
   function(req, res) {
+    console.log('inside callback')
     // Successful authentication, redirect home.
     res.redirect('/helloworld');
   });

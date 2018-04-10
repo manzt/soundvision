@@ -1,11 +1,10 @@
 const express = require('express');
-const passport = require('passport');
-const SpotifyStrategy = require('passport-spotify').Strategy;
 const Spotify = require('node-spotify-api');
 const mongoose = require('mongoose');
-const User = require('./models/models');
+const session = require('express-session');
 const auth = require('./routes/auth');
 const routes = require('./routes/routes');
+const passportSpotify = require('./auth/spotify')
 
 const app = express();
 
@@ -15,39 +14,20 @@ if (!process.env.MONGODB_URI) {
 }
 mongoose.connect(process.env.MONGODB_URI).then(() => console.log('Connected to MongoDB!'));
 
-const client_id = process.env.SPOTIFY_CLIENT_ID;
-const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-const redirect_uri = process.env.REDIRECT_URI || 'http://localhost:8888/callback';
-
-passport.use(new SpotifyStrategy({
-  clientID: client_id,
-  clientSecret: client_secret,
-  callbackURL: redirect_uri
-}, (accessToken, refreshToken, expires_in, profile, done) => {
-  User.findOneAndUpdate({ spotifyID: profile.id }, {
-    spotifyID: profile.id,
-    accessToken: accessToken,
-    refreshToken: refreshToken,
-    expires_in: expires_in,
-  }, { upsert: true }).then((err, user) => done(err, user));
+app.use(session({
+  secret: process.env.SECRET,
+  resave: true,
+  saveUninitialized: true
 }));
 
-passport.serializeUser((user, done) => done(null, user.spotifyID));
+app.use(passportSpotify.initialize());
+app.use(passportSpotify.session());
 
-passport.deserializeUser((id, done) =>
-  User.findOne({ spotifyID: id })
-    .then(user => done(null, user))
-    .catch( err => console.log('error in deserilize: ', err))
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use('/', auth(passport));
-app.use('/', routes());
+app.use('/', auth(passportSpotify));
+app.use('/', routes);
 
 let port = process.env.PORT || 8888
-console.log(`Listening on port ${port}. Go /login to initiate authentication flow.`)
+console.log(`Listening on port ${port}. Go /auth/spotify to initiate authentication flow.`)
 app.listen(port)
 
 
