@@ -28,15 +28,6 @@ passport.use(new SpotifyStrategy({
     expires_in: expires_in
   }
 
-  const user1 = {
-    spotifyID: profile.id,
-    accessToken: accessToken,
-    refreshToken: refreshToken,
-    expires_in: expires_in
-  }
-
-  console.log('before encryption: ', user1);
-
   const options = {
     upsert: true,
     new: true
