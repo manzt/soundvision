@@ -15,7 +15,7 @@ if (!process.env.MONGODB_URI) {
 mongoose.connect(process.env.MONGODB_URI).then(() => console.log('Connected to MongoDB!'));
 
 app.use(session({
-  secret: process.env.SECRET,
+  secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true
 }));
@@ -24,7 +24,7 @@ app.use(passportSpotify.initialize());
 app.use(passportSpotify.session());
 
 app.use('/', auth(passportSpotify));
-app.use('/', routes);
+app.use('/', routes());
 
 let port = process.env.PORT || 8888
 console.log(`Listening on port ${port}. Go /auth/spotify to initiate authentication flow.`)

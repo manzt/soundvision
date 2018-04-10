@@ -4,18 +4,17 @@ const router = express.Router();
 
 module.exports = function(passport) {
   router.get('/auth/spotify',
-  passport.authenticate('spotify'),
+  passport.authenticate('spotify', {scope: ['user-read-email', 'user-library-read	'] }),
   function(req, res){
     // The request will be redirected to spotify for authentication, so this
     // function will not be called.
   });
 
   router.get('/callback',
-  passport.authenticate('spotify', { successRedirect: '/helloworld', failureRedirect: '/login' }),
+  passport.authenticate('spotify', { failureRedirect: '/' }),
   function(req, res) {
-    console.log('inside callback')
     // Successful authentication, redirect home.
-    res.redirect('/helloworld');
+    res.redirect('/welcome');
   });
 
   return router;

@@ -18,6 +18,10 @@ const userSchema = mongoose.Schema({
     type: String,
     trim: true,
   },
+  library: {
+    type: Array,
+    usePushEach: true
+  }
 });
 
 module.exports = { User: mongoose.model('User', userSchema) };
