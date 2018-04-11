@@ -8,20 +8,31 @@ const userSchema = mongoose.Schema({
   },
   accessToken: {
     type: String,
-    trim: true,
+    trim: true
   },
   refreshToken: {
     type: String,
-    trim: true,
+    trim: true
   },
   expires_in: {
     type: String,
-    trim: true,
+    trim: true
   },
-  library: {
-    type: Array,
-    usePushEach: true
-  }
+  albums: [
+    {
+      date_added: {
+        type: Date
+      },
+      ref: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Album'
+      }
+    }
+  ]
+}, {
+  usePushEach: true
 });
 
-module.exports = { User: mongoose.model('User', userSchema) };
+module.exports = {
+  User: mongoose.model('User', userSchema)
+};

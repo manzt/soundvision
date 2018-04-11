@@ -25,7 +25,8 @@ passport.use(new SpotifyStrategy({
     spotifyID: profile.id,
     accessToken: cryptr.encrypt(accessToken),
     refreshToken: cryptr.encrypt(refreshToken),
-    expires_in: expires_in
+    expires_in: expires_in,
+    albums: []
   }
 
   const options = {
