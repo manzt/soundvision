@@ -6,7 +6,7 @@ import axios from 'axios';
 
 class App extends Component {
   componentWillMount(){
-    axios.get('http://localhost:8888/albums', {withCredentials: true}).then( function(data) {
+    axios.get('/api/albums', {withCredentials: true}).then( function(data) {
       console.log(data)
       if (data.success) {
         console.log(data.albums)
