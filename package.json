@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "cryptr": "^3.0.0",
     "d3": "^5.0.0",
     "express-session": "^1.11.3",

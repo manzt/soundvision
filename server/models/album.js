@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const albumSchema = mongoose.Schema({
-  albumID: {
-    type: String,
-    unique: true
-  },
+  // albumID: {
+  //   type: String,
+  //   unique: true
+  // },
   album: {
     type: Object
   }

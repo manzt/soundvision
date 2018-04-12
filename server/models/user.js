@@ -18,17 +18,10 @@ const userSchema = mongoose.Schema({
     type: String,
     trim: true
   },
-  albums: [
-    {
-      date_added: {
-        type: Date
-      },
-      ref: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Album'
-      }
-    }
-  ]
+  albums: [{
+      date_added: Date,
+      album: { type: mongoose.Schema.Types.ObjectId, ref: 'Album' }
+    }]
 }, {
   usePushEach: true
 });

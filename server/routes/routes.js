@@ -30,12 +30,13 @@ module.exports = function() {
   })
 
   router.get('/albums', async (req, res) => {
+    //res.json(req.user.albums.length)
     User.findById(req.user._id)
-        .populate('albums')
-        .exec((err, user) => {
-          if (err) console.log(err);
-          res.json(user);
-        });
+        .populate('albums.album')
+        .then((user) => res.json({
+          success: true,
+          albums: user.albums
+        }));
   })
 
   router.get('/welcome', (req, res) => {
@@ -76,7 +77,7 @@ const getTracks = async (limit, offset, user) => {
              let exists = user.albums.find(item => userAlbum._id.equals(item.ref)) ||
                 updateAlbums.find(item => userAlbum._id.equals(item.ref))
              if(!exists) {
-               updateAlbums.push({ date_added: track.date_added, ref: userAlbum._id })
+               updateAlbums.push({ date_added: track.date_added, album: userAlbum._id })
              }
            })).then(() => {
              User.findById(user._id).then(user => {
@@ -107,7 +108,7 @@ const getAlbums = async (limit, offset, user) => {
   }
 
   Promise.all(uniqAlbums.map(async(album) => {
-    const albumQuery = { albumID: album.album.id };
+    const albumQuery = { "album.id": album.album.id };
     const albumDB = {
       albumID: album.albumID,
       album: album.album,
@@ -118,7 +119,7 @@ const getAlbums = async (limit, offset, user) => {
     let exists = user.albums.find(item => albumObj._id.equals(item.ref));
     if(!exists) {
       await User.findById(user._id).then(user => {
-        user.albums.push({ date_added: album.date_added, ref: albumObj._id });
+        user.albums.push({ date_added: album.date_added, album: albumObj._id });
         user.save();
       })
     }
