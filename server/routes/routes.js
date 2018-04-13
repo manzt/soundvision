@@ -29,7 +29,7 @@ module.exports = function() {
     res.redirect('/welcome')
   })
 
-  router.get('/albums', async (req, res) => {
+  router.get('/albums', (req, res) => {
     //res.json(req.user.albums.length)
     User.findById(req.user._id)
         .populate('albums.album')
@@ -37,6 +37,13 @@ module.exports = function() {
           success: true,
           albums: user.albums
         }));
+  })
+
+  router.get('/test', (req, res) => {
+    //res.json(req.user.albums.length)
+    User.findById(req.user._id)
+        .populate('albums.album')
+        .then((user) => res.json(user.albums));
   })
 
   router.get('/welcome', (req, res) => {

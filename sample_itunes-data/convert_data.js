@@ -52,4 +52,4 @@ uniqueAlbums = uniqueAlbums.filter(item => item.total_plays > 0);
 
 console.log(uniqueAlbums)
 
-fs.writeFile('./data_transformed.json', JSON.stringify(uniqueAlbums) , 'utf-8');
+fs.writeFile('./data2.json', JSON.stringify(uniqueAlbums) , 'utf-8');
