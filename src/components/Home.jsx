@@ -1,8 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Album from './Album';
+import Playlist from './Playlist'
 import axios from 'axios';
-import { handleAlbumSelection, handleSongSelection, handleLibraryImport } from '../actions/index';
+import { handleAlbumSelection, handleLibraryImport } from '../actions/index';
+
+
+
 
 class Home extends React.Component {
   componentWillMount(){
@@ -15,23 +19,24 @@ class Home extends React.Component {
   }
   render() {
     const { library } = this.props;
+    let album;
+    if(library[0]) {album = library[0].album.album}
     return (
       <div>
         <h1> Home </h1>
-        {library.map(item => <Album album={item.album.album} key={item._id}/>)}
+        {album? <Album album={album}/> : null}
+        {/* {library.map(item => <Album album={item.album.album} key={item._id}/>)} */}
+        <Playlist/>
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ library, albumSelection, songSelection }) => ({ library, albumSelection, songSelection });
+const mapStateToProps = ({ library, albumSelection }) => ({ library, albumSelection });
 
 const mapDispatchToProps = dispatch => ({
   albumSelect: (albumSelection) => {
     dispatch(handleAlbumSelection(albumSelection));
-  },
-  songSelect: (songSelection) => {
-    dispatch(handleSongSelection(songSelection));
   },
   importLibrary: (library) => {
     dispatch(handleLibraryImport(library));

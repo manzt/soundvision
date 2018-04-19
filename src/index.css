@@ -2,13 +2,25 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  display: flex;
+  justify-content: center;
 }
 
 .album {
   margin: 10px;
-  display: flex
+  display: flex;
+  width: 800px;
+  padding: 15px
 }
 
-.title {
-  margin-left: 5px
+.info {
+  margin-left: 15px;
+  width: 100%
+}
+
+#playlist {
+  margin: 10px;
+  display: flex;
+  width: 800px;
+  padding: 15px
 }

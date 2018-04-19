@@ -18,9 +18,10 @@ const reducer = (state = defaultState, action) => {
         albumSelection: action.albumSelection
       };
     case 'UPDATE_SONG_SELECTION':
+      console.log('hit update song selection!');
       return {
         ...state,
-        songSelection: action.songSelection
+        songSelection: [...state.songSelection, action.songSelection]
       }
     default:
       return state;
