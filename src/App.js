@@ -1,31 +1,16 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import axios from 'axios';
+import React from 'react';
+import { connect } from 'react-redux';
+import Home from './components/Home';
+import Login from './components/Login';
 
+let App = ({ loggedIn }) => {
+  return (<div>
+    {!loggedIn ? (<Login />) : (<Home/>)}
+  </div>)
+};
 
-class App extends Component {
-  componentWillMount(){
-    axios.get('/api/albums', {withCredentials: true}).then( function(data) {
-      console.log(data)
-      if (data.success) {
-        console.log(data.albums)
-      }
-    })
-  }
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          Frig off
-        </p>
-      </div>
-    );
-  }
-}
+const mapStateToProps = ({ loggedIn }) => ({ loggedIn });
+
+App = connect(mapStateToProps, null)(App);
 
 export default App;
