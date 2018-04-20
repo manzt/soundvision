@@ -67,8 +67,7 @@ class GetLibrary extends React.Component {
                 primary={true}
                 onClick={() => this.getAlbums()} />
               <FlatButton
-                label="Continue"
-                secondary={true}
+                label="Continue without Update"
                 onClick={() => this.props.app.setState({mode: 'home'})} />
             </div>}
         </CardActions>

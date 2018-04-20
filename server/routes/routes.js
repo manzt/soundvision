@@ -48,7 +48,7 @@ module.exports = function() {
       refreshToken: req.user.refreshToken.toString()
     });
 
-    getAlbums(20, 0, req.user, spotify, () => { console.log('done!'); return res.json({success: true}) })
+    getAlbums(20, 0, req.user, spotify, () => res.json({success: true}))
 
   });
 
