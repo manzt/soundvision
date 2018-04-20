@@ -18,3 +18,11 @@ export function handleLibraryImport(library) {
     library,
   }
 }
+
+
+export function handleSongRemove(song) {
+  return {
+    type: 'REMOVE_SONG',
+    song
+  }
+}

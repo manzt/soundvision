@@ -1,26 +1,56 @@
 import React from 'react';
-import { ListItem } from 'material-ui';
+import { ListItem, IconButton} from 'material-ui';
+import { connect } from 'react-redux';
+import { handleSongRemove} from '../actions/index';
+
+//import AddIcon from 'material-ui/svg-icons/content/add';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
 
 const innerStyle = {
   padding: "5px",
   fontSize: '10px',
   borderBottom: 'solid rgba(160, 160, 160, 0.87) 0.5px',
+  display: "flex",
+  justifyContent: 'space-between'
 }
 
-const numberStyle = {
-  color: "rgba(160, 160, 160, 0.87)"
+const smallIcon = {
+  width: 15,
+  height: 15,
+}
+const buttonStyle = {
+  width: 10,
+  height: 10,
+  padding: 0,
+  display: "flex",
+  justifyContent: "center",
+  alignContent: "center"
 }
 
-export default class PlaylistTrack extends React.Component {
+class PlaylistTrack extends React.Component {
   render() {
-    const { track } = this.props;
+    const { track, removeSong } = this.props;
     return (
       <ListItem
-        className="track_list"
-        innerDivStyle={innerStyle}>
-        {/* <span style={numberStyle}>{track.track_number}.</span> */}
-         {track.name}
+        className="tracks"
+        innerDivStyle={innerStyle}
+        onClick={() => removeSong(track)}>
+         <span>{track.name} - {track.artists[0].name}</span>
+         <IconButton
+           style={buttonStyle}
+           iconStyle={smallIcon}>
+            <ClearIcon/>
+         </IconButton>
       </ListItem>
     )
   }
 }
+
+
+const mapDispatchToProps = dispatch => ({
+  removeSong: (song) => {
+    dispatch(handleSongRemove(song));
+  }
+})
+
+export default connect(null, mapDispatchToProps)(PlaylistTrack);

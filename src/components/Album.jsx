@@ -9,7 +9,7 @@ export default class Album extends React.Component {
         <Paper className="album">
           <div>
             <Paper style={{padding: "5px"}}>
-              <img alt="" src={album.images[1].url} height="200" width="200"/>
+              <img alt="" src={album.images[1].url} height="150" width="150"/>
             </Paper>
           </div>
           <div className="info">
