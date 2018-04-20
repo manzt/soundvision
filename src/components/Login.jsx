@@ -26,7 +26,7 @@ export default class Login extends React.Component {
         className="App-login"
         alt="login"
         style={{width: "200px", marginTop: "15px"}}
-        onClick={() => window.location="http://localhost:8888/auth/spotify"}
+        onClick={() => window.location="/api/auth/spotify"}
       />
     </div>
   }

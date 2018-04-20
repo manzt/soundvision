@@ -14,9 +14,14 @@ const spotify = new SpotifyWebApi({
 
 module.exports = function() {
 
+  router.get("/isAuthenticated", (req, res) => {
+    req.user ? res.json({ loggedIn: true }) : res.json({ loggedIn: false });
+  });
+
   router.use(function(req, res, next) {
     if (! req.user) {
-      res.redirect('/auth/spotify');
+      return next();
+      res.redirect('/api/auth/spotify');
     } else {
       next();
     }
@@ -24,9 +29,8 @@ module.exports = function() {
 
   router.get('/library', (req, res) => {
     spotify.setAccessToken(req.user.accessToken.toString());
-    //getTracks(50, 0, req.user);
     getAlbums(20, 0, req.user);
-    res.redirect('http://localhost:3000/')
+    res.redirect('/')
   })
 
   router.get('/albums', (req, res) => {
@@ -45,10 +49,6 @@ module.exports = function() {
         .populate('albums.album')
         .then((user) => res.json(user.albums));
   })
-
-  router.get('/welcome', (req, res) => {
-    res.send('welcome to soundvision')
-  });
 
   return router;
 }

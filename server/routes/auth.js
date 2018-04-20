@@ -14,7 +14,7 @@ module.exports = function(passport) {
   passport.authenticate('spotify', { failureRedirect: '/' }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/library');
+    res.redirect('/api/library');
   });
 
   return router;
