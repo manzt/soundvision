@@ -5,7 +5,7 @@ import logo from '../logo.svg';
 import Playlist from './Playlist'
 import axios from 'axios';
 import { handleAlbumSelection, handleLibraryImport } from '../actions/index';
-import { CircularProgress } from 'material-ui';
+//import { CircularProgress } from 'material-ui';
 
 
 
@@ -13,16 +13,11 @@ import { CircularProgress } from 'material-ui';
 class Home extends React.Component {
   componentWillMount(){
     const { importLibrary } = this.props;
-    // let interval = setInterval(function() {
-      axios.get('/api/albums', {withCredentials: true}).then(function({data}) {
-        if (data.success) {
-          importLibrary(data.albums)
-        }
+    if (this.props.library.length === 0) {
+      axios.get('/api/albums').then(({data}) => {
+        if (data.success) importLibrary(data.albums)
       })
-    // }, 3000);
-    //
-    // setTimeout(function() { clearInterval(interval) }, 15000)
-
+    }
   }
   render() {
     const { library } = this.props;

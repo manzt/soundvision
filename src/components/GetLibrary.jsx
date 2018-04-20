@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardActions, CardTitle} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import logo from '../logo.svg'
 
 import { handleLibraryImport, handleUserInfo } from '../actions/index';
-
-
 import axios from 'axios';
 
 const style = {
@@ -18,16 +16,25 @@ const style = {
 }
 
 class GetLibrary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false
+    }
+  }
   componentWillMount() {
     const { setUser, importLibrary } = this.props;
-    axios.get("/api/userInfo").then(function({data}) {
+    axios.get("/api/userInfo").then(({data}) => {
       setUser(data.userInfo.displayName, data.userInfo.photo);
       importLibrary(data.library)
     })
   }
-  
+
   getAlbums() {
-    axios.get('/api/library')
+    this.setState({loading: true});
+    axios.get('/api/getAlbums').then((data) => {
+      this.props.app.setState({mode: 'home'})
+    }).catch(function(err){ console.log(err) });
   }
 
   render() {
@@ -39,6 +46,7 @@ class GetLibrary extends React.Component {
           alt="logo"
           style={{width: "500px"}}
         />
+      {this.state.loading ? <div>Loading</div> : null}
       {this.props.displayName === 'unknown' ? null :
         <Card>
         <CardTitle
@@ -52,14 +60,16 @@ class GetLibrary extends React.Component {
               primary={true}
               fullWidth={true}
               disableTouchRipple={true}
-              onClick={() => this.getAlbums()}/> :
+              onClick={() => this.getAlbums()} /> :
             <div>
               <FlatButton
                 label="Update Library"
-                primary={true} />
+                primary={true}
+                onClick={() => this.getAlbums()} />
               <FlatButton
                 label="Continue"
-                secondary={true} />
+                secondary={true}
+                onClick={() => this.props.app.setState({mode: 'home'})} />
             </div>}
         </CardActions>
       </Card>

@@ -2,9 +2,6 @@ import React from 'react';
 import logo from '../logo.svg'
 import login from '../login.svg';
 
-import axios from 'axios';
-
-
 const style = {
   display: "block",
   textAlign: "center",

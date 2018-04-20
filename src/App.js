@@ -16,14 +16,14 @@ export default class App extends React.Component {
   }
   componentWillMount() {
     axios.get('/api/isAuthenticated').then(res => {
-      console.log(res.data.loggedIn)
       res.data.loggedIn ? this.setState({mode: 'loggedIn'}) : this.setState({mode: 'loggedOut'});
     })
   }
   render() {
     return (<MuiThemeProvider>
       {this.state.mode === 'unknown' ? null :
-      this.state.mode === 'loggedIn' ? (<Home/>) : (<Login />) }
+      this.state.mode === 'loggedOut' ? (<Login />) :
+      this.state.mode === 'home' ? (<Home/> ) : (<GetLibrary app={this}/>) }
     </MuiThemeProvider>)
   }
 }

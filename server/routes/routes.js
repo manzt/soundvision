@@ -24,9 +24,7 @@ module.exports = function() {
 
   router.get('/userInfo', async (req, res) => {
     try {
-      const user = await User.findById(req.user._id)
-      console.log('inside /api/userInfo')
-      console.log(user)
+      const user = await User.findById(req.user._id).populate('albums.album')
       res.json({
         sucess: true,
         userInfo: {
@@ -42,7 +40,16 @@ module.exports = function() {
   });
 
   router.get('/getAlbums', (req, res) => {
-    getAlbums(20, 0, req.user);
+    const spotify = new SpotifyWebApi({
+      clientId: process.env.SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+      redirectUri: process.env.REDIRECT_URI,
+      accessToken: req.user.accessToken.toString(),
+      refreshToken: req.user.refreshToken.toString()
+    });
+
+    getAlbums(20, 0, req.user, spotify, () => { console.log('done!'); return res.json({success: true}) })
+
   });
 
   router.get('/albums', (req, res) => {
@@ -58,59 +65,7 @@ module.exports = function() {
   return router;
 }
 
-
-// const getTracks = async (limit, offset, user) => {
-//   let tracks = [];
-//   await spotify.getMySavedTracks({ limit: limit, offset: offset })
-//          .then(data => {
-//            console.log('spotify request sucess');
-//
-//            tracks = data.body.items.map(track => {
-//              return {
-//                trackID: track.track.id,
-//                track: track.track,
-//                albumID: track.track.album.id,
-//                album: track.track.album,
-//                date_added: track.added_at
-//              }
-//            })
-//            let updateAlbums = [];
-//
-//            Promise.all(tracks.map(async (track) => {
-//              const trackQuery = { trackID: track.trackID };
-//              const albumQuery = { albumID: track.album.id };
-//              const album = { albumID: track.album.id, album: track.album };
-//              const options = { upsert: true, new: true };
-//
-//              let [userAlbum] = await Promise.all([
-//                Album.findOneAndUpdate(albumQuery, album, options),
-//                Track.findOneAndUpdate(trackQuery, track, options)
-//              ])
-//              let exists = user.albums.find(item => userAlbum._id.equals(item.ref)) ||
-//                 updateAlbums.find(item => userAlbum._id.equals(item.ref))
-//              if(!exists) {
-//                updateAlbums.push({ date_added: track.date_added, album: userAlbum._id })
-//              }
-//            })).then(() => {
-//              User.findById(user._id).then(user => {
-//                user.albums.push.apply(user.albums, updateAlbums);
-//                user.save();
-//                if (tracks.length === 50) getTracks(limit, offset+50, user);
-//              })
-//            });
-//          }).catch(err => console.log(err));
-// }
-
-const getAlbums = async (limit, offset, user) => {
-  //Create SpotifyWebApi Client
-  const spotify = new SpotifyWebApi({
-    clientId: process.env.SPOTIFY_CLIENT_ID,
-    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-    redirectUri: process.env.REDIRECT_URI,
-    accessToken: user.accessToken.toString(),
-    refreshToken: user.refreshToken.toString()
-  });
-
+const getAlbums = async (limit, offset, user, spotify, done) => {
   let data = await spotify.getMySavedTracks({ limit: limit, offset: offset });
   let tracks = data.body.items.map(item => {
     return {
@@ -146,6 +101,7 @@ const getAlbums = async (limit, offset, user) => {
       })
     }
   })).then(() => {
-    if (tracks.length === limit) getAlbums(limit, offset+limit, user);
+    if (tracks.length === limit) getAlbums(limit, offset+limit, user, spotify, done);
+    else done();
   })
 }
