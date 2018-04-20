@@ -14,6 +14,8 @@ if (!process.env.MONGODB_URI) {
 }
 mongoose.connect(process.env.MONGODB_URI).then(() => console.log('Connected to MongoDB!'));
 
+
+///session???? is this needed???
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: true,

@@ -5,6 +5,7 @@ import logo from '../logo.svg';
 import Playlist from './Playlist'
 import axios from 'axios';
 import { handleAlbumSelection, handleLibraryImport } from '../actions/index';
+import { CircularProgress } from 'material-ui';
 
 
 
@@ -12,11 +13,17 @@ import { handleAlbumSelection, handleLibraryImport } from '../actions/index';
 class Home extends React.Component {
   componentWillMount(){
     const { importLibrary } = this.props;
-    axios.get('/api/albums', {withCredentials: true}).then(function({data}) {
-      if (data.success) {
-        importLibrary(data.albums)
-      }
-    })
+
+    let interval = setInterval(function() {
+      axios.get('/api/albums', {withCredentials: true}).then(function({data}) {
+        if (data.success) {
+          importLibrary(data.albums)
+        }
+      })
+    }, 300);
+
+    setTimeout(function() { clearInterval(interval) }, 15000)
+
   }
   render() {
     const { library } = this.props;
@@ -26,6 +33,7 @@ class Home extends React.Component {
       album2 = library[1].album.album
       album3 = library[2].album.album
     }
+    console.log(library)
     return (
       <div style={{display: "block", alignText: "center"}}>
         <img
@@ -34,12 +42,12 @@ class Home extends React.Component {
           alt="logo"
           style={{width: "200px"}}
         />
-        {/* <Logo/> */}
-        {album? <Album album={album}/> : null}
-        {album2? <Album album={album2}/> : null}
-        {album3? <Album album={album3}/> : null}
-        {/* {library.map(item => <Album album={item.album.album} key={item._id}/>)} */}
-        <Playlist/>
+          {/* {library.length === 0 ? <CircularProgress style={{width: "100%"}}/> : null} */}
+          {album? <Album album={album}/> : null}
+          {album2? <Album album={album2}/> : null}
+          {album3? <Album album={album3}/> : null}
+          {/* {library.map(item => <Album album={item.album.album} key={item._id}/>)} */}
+          <Playlist/>
       </div>
     )
   }

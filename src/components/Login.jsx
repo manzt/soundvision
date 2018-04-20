@@ -2,6 +2,9 @@ import React from 'react';
 import logo from '../logo.svg'
 import login from '../login.svg';
 
+import axios from 'axios';
+
+
 const style = {
   display: "block",
   textAlign: "center",
@@ -22,8 +25,8 @@ export default class Login extends React.Component {
         src={login}
         className="App-login"
         alt="login"
-        onClick={() => console.log("clicked")}
         style={{width: "200px", marginTop: "15px"}}
+        onClick={() => window.location="http://localhost:8888/auth/spotify"}
       />
     </div>
   }

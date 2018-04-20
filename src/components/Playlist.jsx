@@ -6,13 +6,13 @@ import PlaylistAddCheck from 'material-ui/svg-icons/av/playlist-add-check';
 
 import PlaylistTrack from './PlaylistTrack';
 
-const innerStyle = {
-  padding: "5px",
-  fontSize: '10px',
-  borderBottom: 'solid rgba(160, 160, 160, 0.87) 0.5px',
-  display: "flex",
-  justifyContent: 'space-between'
-}
+// const innerStyle = {
+//   padding: "5px",
+//   fontSize: '10px',
+//   borderBottom: 'solid rgba(160, 160, 160, 0.87) 0.5px',
+//   display: "flex",
+//   justifyContent: 'space-between'
+// }
 
 class Playlist extends React.Component {
   render() {
@@ -20,7 +20,10 @@ class Playlist extends React.Component {
     return (
         <Paper id="playlist">
           <div style={{display: "flex", justifyContent: "space-between"}}>
-            <TextField hintText='New Playlist'/>
+            <TextField
+              hintText='New Playlist'
+              underlineShow={false}
+            />
             <FlatButton
               label="create playlist"
               labelPosition="before"

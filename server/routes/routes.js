@@ -26,7 +26,7 @@ module.exports = function() {
     spotify.setAccessToken(req.user.accessToken.toString());
     //getTracks(50, 0, req.user);
     getAlbums(20, 0, req.user);
-    res.redirect('/welcome')
+    res.redirect('http://localhost:3000/')
   })
 
   router.get('/albums', (req, res) => {
