@@ -26,7 +26,8 @@ passport.use('spotify', new SpotifyStrategy({
     accessToken: cryptr.encrypt(accessToken),
     refreshToken: cryptr.encrypt(refreshToken),
     expires_in: expires_in,
-    albums: []
+    displayName: profile.displayName,
+    photo: profile.photos[0]
   }
 
   const options = {
@@ -39,26 +40,6 @@ passport.use('spotify', new SpotifyStrategy({
   } catch (error) {
     done(error, false, error.message);
   }
-  // try {
-  //   //Check whether this current user exists in DB
-  //   const exisitingUser = await User.findOne({ spotifyID: profile.id} );
-  //   if (existingUser) {
-  //     return done(null, existingUser)
-  //   }
-  //   // If new account
-  //   const newUser = new User({
-  //     spotifyID: profile.id,
-  //     accessToken: cryptr.encrypt(accessToken),
-  //     refreshToken: cryptr.encrypt(refreshToken),
-  //     expires_in: expires_in,
-  //     albums: []
-  //   })
-  //
-  //   await newUser.save();
-  //   done(null, newUser)
-  // } catch (error) {
-  //   done(error, false, error.message);
-  // }
 }));
 
 init();

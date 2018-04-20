@@ -1,8 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import Home from './components/Home';
 import Login from './components/Login';
 import axios from 'axios';
+import GetLibrary from './components/GetLibrary';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 

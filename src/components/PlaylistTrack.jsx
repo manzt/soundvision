@@ -1,7 +1,7 @@
 import React from 'react';
 import { ListItem, IconButton} from 'material-ui';
 import { connect } from 'react-redux';
-import { handleSongRemove} from '../actions/index';
+import { handleSongRemove } from '../actions/index';
 
 //import AddIcon from 'material-ui/svg-icons/content/add';
 import ClearIcon from 'material-ui/svg-icons/content/clear';

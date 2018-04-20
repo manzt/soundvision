@@ -13,14 +13,13 @@ import { CircularProgress } from 'material-ui';
 class Home extends React.Component {
   componentWillMount(){
     const { importLibrary } = this.props;
-    //
     // let interval = setInterval(function() {
       axios.get('/api/albums', {withCredentials: true}).then(function({data}) {
         if (data.success) {
           importLibrary(data.albums)
         }
       })
-    // }, 300);
+    // }, 3000);
     //
     // setTimeout(function() { clearInterval(interval) }, 15000)
 

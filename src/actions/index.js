@@ -25,3 +25,11 @@ export function handleSongRemove(song) {
     song
   }
 }
+
+export function handleUserInfo(displayName, photo) {
+  return {
+    type: 'SET_USER_INFO',
+    displayName,
+    photo
+  }
+}

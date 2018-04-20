@@ -2,7 +2,8 @@ const defaultState = {
   library: [],
   albumSelection: [],
   songSelection: [],
-  loggedIn: true
+  displayName: 'unknown',
+  photo: null
 }
 
 const reducer = (state = defaultState, action) => {
@@ -27,6 +28,12 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         songSelection: songs
+      };
+    case 'SET_USER_INFO':
+      return {
+        ...state,
+        displayName: action.displayName,
+        photo: action.photo
       }
     default:
       return state;

@@ -19,7 +19,7 @@ export default class Login extends React.Component {
         src={logo}
         className="App-logo"
         alt="logo"
-        style={{width: "600px"}}
+        style={{width: "500px"}}
       />
       <img
         src={login}

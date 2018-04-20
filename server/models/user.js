@@ -18,10 +18,16 @@ const userSchema = mongoose.Schema({
     type: String,
     trim: true
   },
+  displayName: {
+    type: String
+  },
+  photo: {
+    type: String
+  },
   albums: [{
-      date_added: Date,
-      album: { type: mongoose.Schema.Types.ObjectId, ref: 'Album' }
-    }]
+    date_added: Date,
+    album: { type: mongoose.Schema.Types.ObjectId, ref: 'Album' }
+  }]
 }, {
   usePushEach: true
 });
