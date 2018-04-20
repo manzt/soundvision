@@ -22,7 +22,7 @@ class Playlist extends React.Component {
           <div style={{display: "flex", justifyContent: "space-between"}}>
             <TextField hintText='New Playlist'/>
             <FlatButton
-              label="export playlist"
+              label="create playlist"
               labelPosition="before"
               icon={<PlaylistAddCheck/>}
             />

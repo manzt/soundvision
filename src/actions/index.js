@@ -19,7 +19,6 @@ export function handleLibraryImport(library) {
   }
 }
 
-
 export function handleSongRemove(song) {
   return {
     type: 'REMOVE_SONG',
