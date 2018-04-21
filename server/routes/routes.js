@@ -4,7 +4,6 @@ const router = express.Router();
 const _ = require('underscore');
 const { User } = require('../models/user');
 const { Album } = require('../models/album');
-const { Track } = require('../models/track')
 const SpotifyWebApi = require('spotify-web-api-node');
 
 module.exports = function() {
@@ -67,41 +66,54 @@ module.exports = function() {
 
 const getAlbums = async (limit, offset, user, spotify, done) => {
   let data = await spotify.getMySavedTracks({ limit: limit, offset: offset });
-  let tracks = data.body.items.map(item => {
+  let addedAlbum = data.body.items.map(item => {
     return {
-      trackID: item.track.id,
-      track: item.track,
-      albumID: item.track.album.id,
-      album: null,
-      date_added: item.added_at
+      added_at: item.added_at,
+      id: item.track.album.id,
+      albumObj: {}
     }
   });
 
-  let uniqAlbums = _.uniq(tracks, item => item.albumID);
-  let albumObjs = await spotify.getAlbums(uniqAlbums.map(album => album.albumID));
+  let uniqAlbums = _.uniq(addedAlbum, album => album.id);
+  let albumObjs = await spotify.getAlbums(uniqAlbums.map(album => album.id));
 
   for (let i = 0; i < uniqAlbums.length; i++) {
-    uniqAlbums[i].album = albumObjs.body.albums[i]
+    uniqAlbums[i].albumObj = albumObjs.body.albums[i]
   }
 
-  Promise.all(uniqAlbums.map(async(album) => {
-    const albumQuery = { "album.id": album.album.id };
+  Promise.all(uniqAlbums.map( async (album) => {
+    let albumArtists = album.albumObj.artists.map(artist => ({ name: artist.name, id: artist.id }));
+    let albumImages = album.albumObj.images;
+    let albumTracks = album.albumObj.tracks.items.map(track => ({
+      artists: track.artists.map(artist => ({ name: artist.name, id: artist.id })),
+      id: track.id,
+      name: track.name
+    }));
+
+    const albumQuery = { "id": album.id };
+
     const albumDB = {
-      albumID: album.albumID,
-      album: album.album,
+      id: album.id,
+      artists: albumArtists,
+      images: albumImages,
+      name: album.albumObj.name,
+      popularity: album.albumObj.popularity,
+      release_date: album.albumObj.release_date,
+      tracks: albumTracks
     };
+
     const options = { upsert: true, new: true };
 
     let albumObj = await Album.findOneAndUpdate(albumQuery, albumDB, options);
     let exists = user.albums.find(item => albumObj._id.equals(item.ref));
     if(!exists) {
       await User.findById(user._id).then(user => {
-        user.albums.push({ date_added: album.date_added, album: albumObj._id });
+        user.albums.push({ date_added: album.added_at, album: albumObj._id });
         user.save();
       })
     }
   })).then(() => {
-    if (tracks.length === limit) getAlbums(limit, offset+limit, user, spotify, done);
+    if (addedAlbum.length === limit) getAlbums(limit, offset+limit, user, spotify, done);
     else done();
   })
 }
