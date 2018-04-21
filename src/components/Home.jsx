@@ -2,13 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Album from './Album';
 import logo from '../logo.svg';
-import Playlist from './Playlist'
+import Playlist from './Playlist';
+import Visual from './Visual';
 import axios from 'axios';
 import { handleAlbumSelection, handleLibraryImport } from '../actions/index';
 //import { CircularProgress } from 'material-ui';
-
-
-
 
 class Home extends React.Component {
   componentWillMount(){
@@ -20,14 +18,14 @@ class Home extends React.Component {
     }
   }
   render() {
-    const { library } = this.props;
-    let album, album2, album3;
-    if(library[0]) {
-      album = library[0].album
-      album2 = library[1].album
-      album3 = library[2].album
-    }
-    console.log(library)
+    // const { library } = this.props;
+    // let album, album2, album3;
+    // if(library[0]) {
+    //   album = library[0].album
+    //   album2 = library[1].album
+    //   album3 = library[2].album
+    // }
+    // console.log(library)
     return (
       <div style={{display: "block", alignText: "center"}}>
         <img
@@ -36,11 +34,12 @@ class Home extends React.Component {
           alt="logo"
           style={{width: "200px"}}
         />
+        <Visual />
           {/* {library.length === 0 ? <CircularProgress style={{width: "100%"}}/> : null} */}
           {/* {album? <Album album={album}/> : null}
           {album2? <Album album={album2}/> : null}
           {album3? <Album album={album3}/> : null} */}
-          {library.map(item => <Album album={item.album} key={item._id}/>)}
+          {/* {this.props.albumSelection.map(item => <Album album={item.album} key={item._id}/>)} */}
           <Playlist/>
       </div>
     )

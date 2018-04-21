@@ -31,14 +31,14 @@ module.exports = function() {
           photo: user.photo,
         },
         library: user.albums
-      })
+      });
     } catch (error){
       console.log(error);
     }
 
   });
 
-  router.get('/getAlbums', (req, res) => {
+  router.get('/updateLibrary', (req, res) => {
     const spotify = new SpotifyWebApi({
       clientId: process.env.SPOTIFY_CLIENT_ID,
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
@@ -46,19 +46,25 @@ module.exports = function() {
       accessToken: req.user.accessToken.toString(),
       refreshToken: req.user.refreshToken.toString()
     });
-
     getAlbums(20, 0, req.user, spotify, () => res.json({success: true}))
-
   });
 
-  router.get('/albums', (req, res) => {
-    //res.json(req.user.albums.length)
-    User.findById(req.user._id)
-        .populate('albums.album')
-        .then((user) => res.json({
-          success: true,
-          albums: user.albums
-        }));
+  router.get('/albums', async (req, res) => {
+    try {
+      let user = await User.findById(req.user._id).populate('albums.album');
+      res.json({ success: true, albums: user.albums});
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  router.get('/d3', async (req, res) => {
+    try {
+      let user = await User.findById(req.user._id).populate('albums.album')
+      res.json(user.albums);
+    } catch (error) {
+      console.log(error);
+    }
   });
 
   return router;

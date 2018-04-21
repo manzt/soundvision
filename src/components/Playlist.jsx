@@ -1,18 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import { Paper, TextField, List, FlatButton } from 'material-ui';
 import PlaylistAddCheck from 'material-ui/svg-icons/av/playlist-add-check';
-
 import PlaylistTrack from './PlaylistTrack';
-
-// const innerStyle = {
-//   padding: "5px",
-//   fontSize: '10px',
-//   borderBottom: 'solid rgba(160, 160, 160, 0.87) 0.5px',
-//   display: "flex",
-//   justifyContent: 'space-between'
-// }
 
 class Playlist extends React.Component {
   render() {

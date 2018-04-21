@@ -32,7 +32,7 @@ class GetLibrary extends React.Component {
 
   getAlbums() {
     this.setState({loading: true});
-    axios.get('/api/getAlbums').then((data) => {
+    axios.get('/api/updateLibrary').then((data) => {
       this.props.app.setState({mode: 'home'})
     }).catch(function(err){ console.log(err) });
   }

@@ -30,3 +30,46 @@ body {
   margin-left: 0px;
   width: 100%
 }
+
+/* No style rules here yet */
+.dot {
+  fill-opacity: 0.5;
+}
+.bar {
+  fill: #636363;
+  fill-opacity: 0.2;
+}
+.tick line {
+  stroke: #636363;
+}
+.tick text {
+  fill: #636363;
+}
+#tooltip {
+  position: absolute;
+  width: auto;
+  height: auto;
+  padding: 8px 12px;
+  -webkit-border-radius: "10px";
+  pointer-events: none;
+}
+#tooltip.hidden {
+  display: none
+}
+#tooltip p {
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 10px;
+  color: #636363;
+  opacity: 0.7;
+}
+rect.selection {
+  fill: #b6a6cd;
+}
+.handle {
+  fill: #b6a6cd;
+  opacity: 0.7;
+}
+.brush {
+  border-width: 0;
+}
