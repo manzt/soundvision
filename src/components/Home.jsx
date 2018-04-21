@@ -26,8 +26,8 @@ class Home extends React.Component {
           alt="logo"
           style={{width: "200px"}}
         />
-        <Visual />
-          {this.props.albumSelection.map(item => <Album album={item} key={item.id}/>)}
+        {this.props.library.length === 0 ? null : <Visual />}
+        {this.props.albumSelection.map(item => <Album album={item} key={item.id}/>)}
           <Playlist/>
       </div>
     )

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { CircularProgress } from 'material-ui';
 import {Card, CardActions, CardTitle} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import logo from '../logo.svg'
@@ -46,31 +46,34 @@ class GetLibrary extends React.Component {
           alt="logo"
           style={{width: "500px"}}
         />
-      {this.state.loading ? <div>Loading</div> : null}
       {this.props.displayName === 'unknown' ? null :
         <Card>
         <CardTitle
           title={`${welcomeString}${this.props.displayName.split(" ")[0]}!`}
-          subtitle="Prepare to explore your music listening history."
+          subtitle={this.state.loading ?
+            "Preparing your music library. This could take a few minutes..." :
+            "Prepare to explore your music listening history."}
         />
-        <CardActions>
-          {this.props.library.length === 0 ?
-            <FlatButton
-              label="Import Library"
-              primary={true}
-              fullWidth={true}
-              disableTouchRipple={true}
-              onClick={() => this.getAlbums()} /> :
-            <div>
+        {this.state.loading ? <CircularProgress /> :
+          <CardActions>
+            {this.props.library.length === 0 ?
               <FlatButton
-                label="Update Library"
+                label="Import Library"
                 primary={true}
-                onClick={() => this.getAlbums()} />
-              <FlatButton
-                label="Continue without Update"
-                onClick={() => this.props.app.setState({mode: 'home'})} />
-            </div>}
-        </CardActions>
+                fullWidth={true}
+                disableTouchRipple={true}
+                onClick={() => this.getAlbums()} /> :
+                <div>
+                  <FlatButton
+                    label="Update Library"
+                    primary={true}
+                    onClick={() => this.getAlbums()} />
+                    <FlatButton
+                      label="Continue without Update"
+                      onClick={() => this.props.app.setState({mode: 'home'})} />
+                    </div>}
+          </CardActions>
+        }
       </Card>
       }
     </div>

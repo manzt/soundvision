@@ -241,7 +241,7 @@ class Visual extends React.Component {
               let xpos = parseFloat(transform)
 
               d3.select("#tooltip")
-                .style("left", xpos + margin.left + 80 + "px")
+                .style("left", xpos + margin.left + 192 + "px")
                 .style("top", margin.top + 42 + "px")
                 .select("#title").text(d.title);
 
