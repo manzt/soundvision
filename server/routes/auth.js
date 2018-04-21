@@ -4,7 +4,7 @@ const router = express.Router();
 
 module.exports = function(passport) {
   router.get('/auth/spotify',
-  passport.authenticate('spotify', {scope: ['user-read-email', 'user-library-read	'] }),
+  passport.authenticate('spotify', {scope: ['user-read-email', 'user-library-read', 'playlist-modify-public', 'playlist-modify-private' ] }),
   function(req, res){
     // The request will be redirected to spotify for authentication, so this
     // function will not be called.

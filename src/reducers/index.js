@@ -34,7 +34,12 @@ const reducer = (state = defaultState, action) => {
         ...state,
         displayName: action.displayName,
         photo: action.photo
-      }
+      };
+    case 'CLEAR_SONG_SELECTION':
+      return {
+        ...state,
+        songSelection: []
+      };
     default:
       return state;
   }

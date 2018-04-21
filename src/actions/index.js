@@ -33,3 +33,9 @@ export function handleUserInfo(displayName, photo) {
     photo
   }
 }
+
+export function handleClearSongSelection() {
+  return {
+    type: 'CLEAR_SONG_SELECTION'
+  }
+}

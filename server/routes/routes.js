@@ -5,6 +5,9 @@ const _ = require('underscore');
 const { User } = require('../models/user');
 const { Album } = require('../models/album');
 const SpotifyWebApi = require('spotify-web-api-node');
+const bodyParser = require('body-parser');
+router.use(bodyParser());
+
 
 module.exports = function() {
 
@@ -58,14 +61,24 @@ module.exports = function() {
     }
   });
 
-  router.get('/d3', async (req, res) => {
+  router.post('/createPlaylist', async (req, res) => {
+    const spotify = new SpotifyWebApi({
+      clientId: process.env.SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+      redirectUri: process.env.REDIRECT_URI,
+      accessToken: req.user.accessToken.toString(),
+      refreshToken: req.user.refreshToken.toString()
+    });
     try {
-      let user = await User.findById(req.user._id).populate('albums.album')
-      res.json(user.albums);
+      const tracks = req.body.tracks.map(trackid => 'spotify:track:' + trackid);
+      console.log(tracks, req.body.name)
+      const playlist = await spotify.createPlaylist(req.user.spotifyID, req.body.name, { 'public' : false });
+      spotify.addTracksToPlaylist(req.user.spotifyID, playlist.body.id, tracks)
     } catch (error) {
       console.log(error);
     }
-  });
+    res.json({ success: true });
+  })
 
   return router;
 }

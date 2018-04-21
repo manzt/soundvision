@@ -158,6 +158,8 @@ class Visual extends React.Component {
              .classed("selected", false)
              .style('fill-opacity', "0.5")
              .style('stroke-width', "0")
+
+           albumSelect(d3.selectAll(".selected").data());
          })
       //Timeline Scroller
       function mousemove() {
@@ -268,7 +270,6 @@ class Visual extends React.Component {
            .on("mousedown", function() {
              let dot = d3.select(this);
              dot.classed('selected', !dot.classed('selected'));
-             console.log(d3.selectAll(".selected").data());
              albumSelect(d3.selectAll(".selected").data());
            })
         binContainerEnter.merge(binContainer)
