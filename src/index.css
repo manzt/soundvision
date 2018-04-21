@@ -1,5 +1,5 @@
 body {
-  marginTop: 15px;
+  margin-top: 15px;
   padding: 0;
   font-family: sans-serif;
   display: flex;
@@ -45,6 +45,7 @@ body {
 .tick text {
   fill: #636363;
 }
+
 #tooltip {
   position: absolute;
   width: auto;
@@ -53,15 +54,18 @@ body {
   -webkit-border-radius: "10px";
   pointer-events: none;
 }
+
 #tooltip.hidden {
   display: none
 }
+
 #tooltip p {
   margin: 0;
   font-family: sans-serif;
   font-size: 10px;
-  color: #636363;
-  opacity: 0.7;
+  color: black;
+  /* color: #636363; */
+  /* opacity: 0.7; */
 }
 rect.selection {
   fill: #b6a6cd;

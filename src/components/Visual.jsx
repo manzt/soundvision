@@ -97,7 +97,6 @@ class Visual extends React.Component {
          .attr('class', 'behind')
          .attr('width', w)
          .attr('height', h)
-         .style("fill", "yellow")
          .on('mouseover', () => focus.style('display', null))
          .on('mousemove', mousemove);
       d3.select('.behind')
@@ -210,16 +209,17 @@ class Visual extends React.Component {
         //pupulate bin container with data
         binContainerEnter.selectAll("circle")
           .data(d => d.map((p, i) => {
+            console.log(p, i)
             return {
                       idx: i,
                       radius: (xScale(d.x1) - xScale(d.x0)) /2,
                       date_added: p.date_added,
                       release_date: p.album.release_date,
-                      image: p.album.images[2].url,
+                      images: p.album.images,
                       title: p.album.name,
                       artists: p.album.artists,
-                      id: p.id,
-                      tracks: p.tracks
+                      id: p.album.id,
+                      tracks: p.album.tracks
                    }
           }))
           .enter()
@@ -239,13 +239,13 @@ class Visual extends React.Component {
               let xpos = parseFloat(transform)
 
               d3.select("#tooltip")
-                .style("left", xpos + margin.left + "px")
-                .style("top", margin.top + "px")
+                .style("left", xpos + margin.left + 192 + "px")
+                .style("top", margin.top + 42 + "px")
                 .select("#title").text(d.title);
 
               d3.select("#year").text(`(${formatYear(d.release_date)})`)
               d3.select("#artist").text(`${d.artists[0].name}`)
-              d3.select("#image").attr("src", d.image)
+              d3.select("#image").attr("src", d.images[2].url)
               d3.select("#tooltip").classed("hidden", false);
 
               d3.select(this)

@@ -39,7 +39,7 @@ class Home extends React.Component {
           {/* {album? <Album album={album}/> : null}
           {album2? <Album album={album2}/> : null}
           {album3? <Album album={album3}/> : null} */}
-          {/* {this.props.albumSelection.map(item => <Album album={item.album} key={item._id}/>)} */}
+          {this.props.albumSelection.map(item => <Album album={item} key={item.id}/>)}
           <Playlist/>
       </div>
     )

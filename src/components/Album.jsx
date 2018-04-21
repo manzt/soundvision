@@ -13,7 +13,7 @@ export default class Album extends React.Component {
             </Paper>
           </div>
           <div className="info">
-            <b>{album.name} ({album.release_date.slice(0,4)})</b><br/>
+            <b>{album.title} ({album.release_date.getFullYear()})</b><br/>
             <span>{album.artists[0].name}</span>
             <List>
               {album.tracks.map(track => <Track track={track} key={track.id}/>)}
