@@ -87,7 +87,8 @@ const getAlbums = async (limit, offset, user, spotify, done) => {
     let albumTracks = album.albumObj.tracks.items.map(track => ({
       artists: track.artists.map(artist => ({ name: artist.name, id: artist.id })),
       id: track.id,
-      name: track.name
+      name: track.name,
+      track_number: track.track_number
     }));
 
     const albumQuery = { "id": album.id };

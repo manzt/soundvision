@@ -16,7 +16,7 @@ export default class Album extends React.Component {
             <b>{album.name} ({album.release_date.slice(0,4)})</b><br/>
             <span>{album.artists[0].name}</span>
             <List>
-              {album.tracks.items.map(track => <Track track={track} key={track.id}/>)}
+              {album.tracks.map(track => <Track track={track} key={track.id}/>)}
             </List>
           </div>
         </Paper>

@@ -23,9 +23,9 @@ class Home extends React.Component {
     const { library } = this.props;
     let album, album2, album3;
     if(library[0]) {
-      album = library[0].album.album
-      album2 = library[1].album.album
-      album3 = library[2].album.album
+      album = library[0].album
+      album2 = library[1].album
+      album3 = library[2].album
     }
     console.log(library)
     return (
@@ -37,10 +37,10 @@ class Home extends React.Component {
           style={{width: "200px"}}
         />
           {/* {library.length === 0 ? <CircularProgress style={{width: "100%"}}/> : null} */}
-          {album? <Album album={album}/> : null}
+          {/* {album? <Album album={album}/> : null}
           {album2? <Album album={album2}/> : null}
-          {album3? <Album album={album3}/> : null}
-          {/* {library.map(item => <Album album={item.album.album} key={item._id}/>)} */}
+          {album3? <Album album={album3}/> : null} */}
+          {library.map(item => <Album album={item.album} key={item._id}/>)}
           <Playlist/>
       </div>
     )

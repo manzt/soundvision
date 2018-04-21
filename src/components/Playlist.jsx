@@ -17,6 +17,7 @@ import PlaylistTrack from './PlaylistTrack';
 class Playlist extends React.Component {
   render() {
     const { songSelection } = this.props;
+    console.log(songSelection)
     return (
         <Paper id="playlist">
           <div style={{display: "flex", justifyContent: "space-between"}}>
