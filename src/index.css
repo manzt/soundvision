@@ -51,8 +51,8 @@ body {
   width: auto;
   height: auto;
   padding: 8px 12px;
-  -webkit-border-radius: "10px";
   pointer-events: none;
+  left: 50%;
 }
 
 #tooltip.hidden {

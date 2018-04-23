@@ -5,7 +5,7 @@ import logo from '../logo.svg';
 import Playlist from './Playlist';
 import Visual from './Visual';
 import axios from 'axios';
-import { handleAlbumSelection, handleLibraryImport } from '../actions/index';
+import { handleLibraryImport } from '../actions/index';
 //import { CircularProgress } from 'material-ui';
 
 class Home extends React.Component {

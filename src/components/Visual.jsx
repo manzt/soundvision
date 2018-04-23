@@ -27,11 +27,11 @@ class Visual extends React.Component {
     const formatScroller = d3.timeFormat("%b %d");
 
     let svg = d3.select("svg"),
-        margin = {top: 20, right: 35, bottom: 120, left: 35},
-        margin2 = {top: 430, right: 35, bottom: 30, left: 35},
+        margin = {top: 0, right: 35, bottom: 90, left: 30},
+        margin2 = {top: 300, right: 35, bottom: 30, left: 30},
         w = +svg.attr("width") - margin.left - margin.right,
         h = +svg.attr("height") - margin.top - margin.bottom,
-        h2 = +svg.attr("height") - margin2.top - margin2.bottom;
+        h2 = +svg.attr("height") - margin2.top - margin2.bottom ;
 
     let xScale = d3.scaleTime().range([0, w]),
         xScale2 = d3.scaleTime().range([0, w]),
@@ -53,7 +53,7 @@ class Visual extends React.Component {
       });
       let extent = d3.extent(dataset, d => d.date_added);
       //set x-axis domains
-      xScale.domain(extent);
+      xScale.domain(extent),
       xScale2.domain(xScale.domain());
 
       // Determine the first and last dates in the data set
@@ -81,11 +81,12 @@ class Visual extends React.Component {
                         .attr("class", "bottom")
                         .attr("transform", `translate(${margin2.left},${margin2.top})`);
 
-      const focus = top.append("g").attr('class', 'focus').style('display', 'none')
-      focus.append('text').attr('y', h + 40).attr('dy', '.35em');
+      const focus = top.append("g")
+                       .attr('class', 'focus')
+                       .style('display', 'none');
+      focus.append('text').attr('y', h + 30).attr('dy', '.35em');
       focus.append('line').classed('y', true);
-      d3.selectAll('.focus')
-        .style('opacity', 0.7);
+      d3.selectAll('.focus').style('opacity', 0.7);
 
       d3.selectAll('.focus line')
         .style('fill', 'none')
@@ -113,7 +114,7 @@ class Visual extends React.Component {
 
       bar.append("rect")
          .attr("width", xScale2(bins2[0].x1) - xScale2(bins2[0].x0))
-         .attr("height", d => { return h2 - yScale2(d.length) })
+         .attr("height", d => h2 - yScale2(d.length));
 
       //Create X axis
       top.append("g")
@@ -136,8 +137,8 @@ class Visual extends React.Component {
       bottom.append("g")
             .attr("class", "brush")
             .call(brush)
-            .call(brush.move, [xScale(extent[0]),
-              xScale(extent[0].setMonth(extent[0].getMonth() + 2.5))
+            .call(brush.move, [xScale2(extent[0]),
+              xScale2(extent[0].setMonth(extent[0].getMonth() + 2.5))
             ]);
 
       //D3 brush options
@@ -149,7 +150,7 @@ class Visual extends React.Component {
 
       top.append("circle")
          .attr("cx", w)
-         .attr("cy", 0)
+         .attr("cy", 20)
          .attr("r", 10)
          .style("fill", "#b6a6cd")
          .style("fill-opacity", "0.7")
@@ -170,7 +171,7 @@ class Visual extends React.Component {
         .attr('x1', 0)
         .attr('x2', 0)
         .attr('y1', 0)
-        .attr('y2', h + 30);
+        .attr('y2', h + 20);
 
         focus.select('text')
         .style('fill', '#636363')
@@ -199,7 +200,7 @@ class Visual extends React.Component {
                    .attr('x1', 0)
                    .attr('x2', 0)
                    .attr('y1', 0)
-                   .attr('y2', h + 30);
+                   .attr('y2', h + 20);
 
               focus.select('text')
                    .style('fill', '#636363')
@@ -211,7 +212,7 @@ class Visual extends React.Component {
         //pupulate bin container with data
         binContainerEnter.selectAll("circle")
           .data(d => d.map((p, i) => {
-            console.log(p, i)
+            //console.log(p, i)
             return {
                       idx: i,
                       radius: (xScale(d.x1) - xScale(d.x0)) /2,
@@ -241,9 +242,11 @@ class Visual extends React.Component {
               let xpos = parseFloat(transform)
 
               d3.select("#tooltip")
-                .style("left", xpos + margin.left + 192 + "px")
-                .style("top", margin.top + 42 + "px")
+                .style("margin-left", xpos - w/2 - 10 + "px")
+                .style("top", 42 + margin.top + "px")
                 .select("#title").text(d.title);
+
+             focus.append('div').text('hello')
 
               d3.select("#year").text(`(${formatYear(d.release_date)})`)
               d3.select("#artist").text(`${d.artists[0].name}`)
@@ -299,13 +302,13 @@ class Visual extends React.Component {
   render() {
     return <div>
         <svg
-          width="750"
-          height="500" />
+          width="675"
+          height="350" />
         <div id="tooltip" className="hidden">
     			<img id="image" src="" alt=""></img>
     			<p>
     				<strong>
-    					<span id="title"></span>
+    					<span id="title"> </span>
     					<span id="year"></span>
     				</strong><br/>
     				<span id="artist"></span>
