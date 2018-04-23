@@ -125,7 +125,7 @@ const getAlbums = async (limit, offset, user, spotify, done) => {
     const options = { upsert: true, new: true };
 
     let albumObj = await Album.findOneAndUpdate(albumQuery, albumDB, options);
-    let exists = user.albums.find(item => albumObj._id.equals(item.ref));
+    let exists = await user.albums.find(item => albumObj._id.equals(item.ref));
     if(!exists) {
       await User.findById(user._id).then(user => {
         user.albums.push({ date_added: album.added_at, album: albumObj._id });

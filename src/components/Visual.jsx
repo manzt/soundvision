@@ -242,13 +242,13 @@ class Visual extends React.Component {
               let xpos = parseFloat(transform)
 
               d3.select("#tooltip")
-                .style("margin-left", xpos - w/2 - 10 + "px")
+                .style("margin-left", xpos - w/2 - 7 + "px")
                 .style("top", 42 + margin.top + "px")
                 .select("#title").text(d.title);
 
              focus.append('div').text('hello')
 
-              d3.select("#year").text(`(${formatYear(d.release_date)})`)
+              d3.select("#year").text(` (${formatYear(d.release_date)})`)
               d3.select("#artist").text(`${d.artists[0].name}`)
               d3.select("#image").attr("src", d.images[2].url)
               d3.select("#tooltip").classed("hidden", false);
@@ -308,7 +308,7 @@ class Visual extends React.Component {
     			<img id="image" src="" alt=""></img>
     			<p>
     				<strong>
-    					<span id="title"> </span>
+    					<span id="title"></span>
     					<span id="year"></span>
     				</strong><br/>
     				<span id="artist"></span>
