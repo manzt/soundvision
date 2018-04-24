@@ -64,7 +64,7 @@ class Visual extends React.Component {
     let extent = d3.extent(dataset, d => d.date_added);
 
     //set x-axis domains
-    xScale.domain(extent),
+    xScale.domain([d3.timeDay.offset(extent[0], -1), d3.timeDay.offset(extent[1], 1)]),
     xScale2.domain(xScale.domain());
 
     // Determine the first and last dates in the data set
@@ -87,6 +87,7 @@ class Visual extends React.Component {
 
     //set y-scale domain for bottom histogram
     yScale2.domain([0, d3.max(bins2, d => d.length)]);
+    console.log(bins2)
 
     //append svg group to svg for top visual
     const top = svg.append("g")
@@ -154,7 +155,7 @@ class Visual extends React.Component {
 
     //create d3 brush to brush over bottom visual
     let brush = d3.brushX()
-                  .extent([[0,0], [w, h2]])
+                  .extent([[1,0], [w - 1, h2]])
                   .on("brush end", brushed);
     //append brush to bottom svg group
     bottom.append("g")

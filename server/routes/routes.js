@@ -40,23 +40,6 @@ module.exports = function() {
     }
   });
 
-  router.get('/importLibrary', async (req, res) => {
-    const spotify = new SpotifyWebApi({
-      clientId: process.env.SPOTIFY_CLIENT_ID,
-      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-      redirectUri: process.env.REDIRECT_URI,
-      accessToken: req.user.accessToken.toString(),
-      refreshToken: req.user.refreshToken.toString()
-    });
-    try {
-      let tracks = [];
-      let uniqTracks = await getTracks(spotify, tracks);
-      getUniqAlbums(req.user, spotify, uniqTracks,() => res.json({success: true}));
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
   router.get('/updateLibrary', async (req, res) => {
     const spotify = new SpotifyWebApi({
       clientId: process.env.SPOTIFY_CLIENT_ID,
@@ -66,6 +49,12 @@ module.exports = function() {
       refreshToken: req.user.refreshToken.toString()
     });
     try {
+      //clear current stored library
+      let dbUser = await User.findById(req.user._id);
+      dbUser.albums = [];
+      dbUser.save();
+
+
       let tracks = [];
       let uniqTracks = await getTracks(spotify, tracks);
       getUniqAlbums(req.user, spotify, uniqTracks,() => res.json({success: true}));
@@ -155,7 +144,7 @@ const getUniqAlbums = async (user, spotify, uniqAlbums, done, limit = 20, offset
       albumArr.forEach(album => uniqAlbumObjs.push(album))
     });
 
-    await uniqAlbumObjs.forEach(async album => {
+    uniqAlbumObjs.forEach(async album => {
       let albumArtists = album.albumObj.artists.map(artist => ({ name: artist.name, id: artist.id }));
       let albumImages = album.albumObj.images;
       let albumTracks = album.albumObj.tracks.items.map(track => ({
@@ -181,11 +170,8 @@ const getUniqAlbums = async (user, spotify, uniqAlbums, done, limit = 20, offset
 
       let dbUser = await User.findById(user._id);
       let newAlbum = await Album.findOneAndUpdate(albumQuery, albumDB, options);
-      let exists = await dbUser.albums.find(item => newAlbum._id.equals(item.ref));
-      if (!exists) {
-        await dbUser.albums.push({ date_added: album.added_at, album: newAlbum._id });
-        await dbUser.save();
-      }
+      dbUser.albums.push({ date_added: album.added_at, album: newAlbum._id });
+      dbUser.save();
     })
   } catch (error) {
     console.log(error);

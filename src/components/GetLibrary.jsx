@@ -30,7 +30,7 @@ class GetLibrary extends React.Component {
     })
   }
 
-  getAlbums() {
+  updateLibrary() {
     this.setState({loading: true});
     axios.get('/api/updateLibrary').then((data) => {
       this.props.app.setState({mode: 'home'})
@@ -62,12 +62,12 @@ class GetLibrary extends React.Component {
                 primary={true}
                 fullWidth={true}
                 disableTouchRipple={true}
-                onClick={() => this.getAlbums()} /> :
+                onClick={() => this.updateLibrary()} /> :
                 <div>
                   <FlatButton
                     label="Update Library"
                     primary={true}
-                    onClick={() => this.getAlbums()} />
+                    onClick={() => this.updateLibrary()} />
                     <FlatButton
                       label="Continue without Update"
                       onClick={() => this.props.app.setState({mode: 'home'})} />
