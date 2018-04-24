@@ -26,6 +26,7 @@ class Visual extends React.Component {
     const formatYear = d3.timeFormat("%Y");
     const formatScroller = d3.timeFormat("%b %d");
 
+    //define size of top and bottom visual
     let svg = d3.select("svg"),
         margin = {top: 0, right: 35, bottom: 90, left: 30},
         margin2 = {top: 300, right: 35, bottom: 30, left: 30},
@@ -33,135 +34,158 @@ class Visual extends React.Component {
         h = +svg.attr("height") - margin.top - margin.bottom,
         h2 = +svg.attr("height") - margin2.top - margin2.bottom ;
 
+    //set scales for x and y on top and bottom visual
     let xScale = d3.scaleTime().range([0, w]),
         xScale2 = d3.scaleTime().range([0, w]),
         yScale2 = d3.scaleLinear().range([h2, 0]);
 
+    //define axis types
     let xAxis = d3.axisBottom(xScale).ticks(d3.timeMonth),
         xAxis2 = d3.axisBottom(xScale2).ticks(d3.timeYear)
 
+    //include library state and albumSelect dispatch from props
     const { library, albumSelect } = this.props;
+
+    //import data for visualization
     let data = library;
-      // transform data into correct types
-      data.forEach(d => {
-        d.date_added = addedDateParse(d.date_added.slice(0,10));
-        d.album.release_date = releaseDateParse(d.album.release_date.slice(0,4));
-      })
-      //sort by date
-      let dataset = data.sort( (a,b) => {
-        return a.album.release_date - b.album.release_date;
-      });
-      let extent = d3.extent(dataset, d => d.date_added);
-      //set x-axis domains
-      xScale.domain(extent),
-      xScale2.domain(xScale.domain());
 
-      // Determine the first and last dates in the data set
-      let dayBins = d3.timeDays(d3.timeDay.offset(extent[0], -1),
-                                d3.timeDay.offset(extent[1], 1));
-      // Use the histogram layout to create a function that will bin the data
-      let bins = d3.histogram()
-                   .value(d => d.date_added)
-                   .domain(xScale.domain())
-                   .thresholds(dayBins)(dataset);
+    //transform date strings into date objects
+    data.forEach(d => {
+      d.date_added = addedDateParse(d.date_added.slice(0,10));
+      d.album.release_date = releaseDateParse(d.album.release_date.slice(0,4));
+    })
 
-      let bins2 = d3.histogram()
-                    .value(d => d.date_added)
-                    .domain(xScale2.domain())
-                    .thresholds(dayBins)(dataset);
+    //sort by release_date so dots will be sorted within each histogram bin (colors grouped)
+    let dataset = data.sort( (a,b) => {
+      return a.album.release_date - b.album.release_date;
+    });
 
-      //set y-scale domain for month histogram
-      yScale2.domain([0, d3.max(bins2, d => d.length)]);
+    //find extent of library downloads
+    let extent = d3.extent(dataset, d => d.date_added);
 
-      const top = svg.append("g")
-                     .attr("class", "top")
-                     .attr("transform", `translate(${margin.left},${margin.top})`);
+    //set x-axis domains
+    xScale.domain(extent),
+    xScale2.domain(xScale.domain());
 
-      const bottom = svg.append("g")
-                        .attr("class", "bottom")
-                        .attr("transform", `translate(${margin2.left},${margin2.top})`);
+    // Determine the first and last dates in the data set
+    let dayBins = d3.timeDays(d3.timeDay.offset(extent[0], -1),
+                              d3.timeDay.offset(extent[1], 1));
 
-      const focus = top.append("g")
-                       .attr('class', 'focus')
-                       .style('display', 'none');
-      focus.append('text').attr('y', h + 30).attr('dy', '.35em');
-      focus.append('line').classed('y', true);
-      d3.selectAll('.focus').style('opacity', 0.7);
+    // Use the histogram layout to create a function that will bin the data for
+    // the top histogram
+    let bins = d3.histogram()
+                 .value(d => d.date_added)
+                 .domain(xScale.domain())
+                 .thresholds(dayBins)(dataset);
 
-      d3.selectAll('.focus line')
-        .style('fill', 'none')
-        .style('stroke', '#636363')
-        .style('stroke-width', '1px');
+    // Use the histogram layout to create a function that will bin the data for
+    // the bottom histogram with brush
+    let bins2 = d3.histogram()
+                  .value(d => d.date_added)
+                  .domain(xScale2.domain())
+                  .thresholds(dayBins)(dataset);
 
-      //behind rect for scroller
-      top.append('rect')
-         .attr('class', 'behind')
-         .attr('width', w)
-         .attr('height', h)
-         .on('mouseover', () => focus.style('display', null))
-         .on('mousemove', mousemove);
-      d3.select('.behind')
-        .style("fill",'none')
-        .style("pointer-events", 'all');
+    //set y-scale domain for bottom histogram
+    yScale2.domain([0, d3.max(bins2, d => d.length)]);
 
-      let bar = bottom.selectAll(".bar")
-                 .data(bins2)
-                 .enter()
-                 .append("g")
-                 .attr("class", "bar")
-                 .attr("date", d => d.date_added)
-                 .attr("transform", d => `translate(${xScale2(d.x0)},${yScale2(d.length)})`)
+    //append svg group to svg for top visual
+    const top = svg.append("g")
+                   .attr("class", "top")
+                   .attr("transform", `translate(${margin.left},${margin.top})`);
 
-      bar.append("rect")
-         .attr("width", xScale2(bins2[0].x1) - xScale2(bins2[0].x0))
-         .attr("height", d => h2 - yScale2(d.length));
+    //append svg group to svg for bottom visual
+    const bottom = svg.append("g")
+                      .attr("class", "bottom")
+                      .attr("transform", `translate(${margin2.left},${margin2.top})`);
 
-      //Create X axis
-      top.append("g")
-         .attr("class", "axis axis--x1")
-         .attr("transform", `translate(0,${h})`)
-         .call(xAxis);
+    //append svg group for scroll over focus element
+    const focus = top.append("g")
+                     .attr('class', 'focus')
+                     .style('display', 'none');
+    //set focus attributes, line & text
+    focus.append('text').attr('y', h + 30).attr('dy', '.35em');
+    focus.append('line').classed('y', true);
+    d3.selectAll('.focus').style('opacity', 0.7);
+    //style focus
+    d3.selectAll('.focus line')
+      .style('fill', 'none')
+      .style('stroke', '#636363')
+      .style('stroke-width', '1px');
 
-      //Create X-axis 2
-      bottom.append("g")
-            .attr("class", "axis axis--x")
-            .attr("transform", `translate(0,${h2})`)
-            .call(xAxis2)
-            .style("fill-opacity", "0.6")
-            .style("stroke-opacity", "0.3")
-
-      let brush = d3.brushX()
-                    .extent([[0,0], [w, h2]])
-                    .on("brush end", brushed);
-
-      bottom.append("g")
-            .attr("class", "brush")
-            .call(brush)
-            .call(brush.move, [xScale2(extent[0]),
-              xScale2(extent[0].setMonth(extent[0].getMonth() + 2.5))
-            ]);
-
-      //D3 brush options
-      // removes handle to resize the brush
-      // d3.selectAll('.brush>.handle').remove();
-      // removes crosshair cursor
-      d3.selectAll('.brush>.overlay').remove();
+    //create background rect to handle mouseover for focus
+    top.append('rect')
+       .attr('class', 'behind')
+       .attr('width', w)
+       .attr('height', h)
+       .on('mouseover', () => focus.style('display', null))
+       .on('mousemove', mousemove);
+    //remove fill and enable all pointer-events
+    d3.select('.behind')
+      .style("fill",'none')
+      .style("pointer-events", 'all');
 
 
-      top.append("circle")
-         .attr("cx", w)
-         .attr("cy", 20)
-         .attr("r", 10)
-         .style("fill", "#b6a6cd")
-         .style("fill-opacity", "0.7")
-         .on("click", () => {
-           d3.selectAll(".selected")
-             .classed("selected", false)
-             .style('fill-opacity', "0.5")
-             .style('stroke-width', "0")
+    //create bottom histogram
+    let bar = bottom.selectAll(".bar")
+               .data(bins2)
+               .enter()
+               .append("g")
+               .attr("class", "bar")
+               .attr("date", d => d.date_added)
+               .attr("transform", d => `translate(${xScale2(d.x0)},${yScale2(d.length)})`)
+    //append each rect
+    bar.append("rect")
+       .attr("width", xScale2(bins2[0].x1) - xScale2(bins2[0].x0))
+       .attr("height", d => h2 - yScale2(d.length));
 
-           albumSelect(d3.selectAll(".selected").data());
-         })
+    //Create X axis
+    top.append("g")
+       .attr("class", "axis axis--x1")
+       .attr("transform", `translate(0,${h})`)
+       .call(xAxis);
+
+    //Create X-axis 2
+    bottom.append("g")
+          .attr("class", "axis axis--x")
+          .attr("transform", `translate(0,${h2})`)
+          .call(xAxis2)
+          .style("fill-opacity", "0.6")
+          .style("stroke-opacity", "0.3")
+
+    //create d3 brush to brush over bottom visual
+    let brush = d3.brushX()
+                  .extent([[0,0], [w, h2]])
+                  .on("brush end", brushed);
+    //append brush to bottom svg group
+    bottom.append("g")
+          .attr("class", "brush")
+          .call(brush)
+          .call(brush.move, [xScale2(extent[0]),
+            xScale2(extent[0].setMonth(extent[0].getMonth() + 2.5))
+          ]);
+
+    //D3 brush options
+    // removes handle to resize the brush:
+    // d3.selectAll('.brush>.handle').remove();
+
+    // removes crosshair cursor:
+    d3.selectAll('.brush>.overlay').remove();
+
+    //create circle to remove all .selected when clicked
+    top.append("circle")
+       .attr("cx", w)
+       .attr("cy", 20)
+       .attr("r", 10)
+       .style("fill", "#b6a6cd")
+       .style("fill-opacity", "0.7")
+       .on("click", () => {
+         d3.selectAll(".selected")
+           .classed("selected", false)
+           .style('fill-opacity', "0.5")
+           .style('stroke-width', "0")
+         //sends dispatch to update album selection to an empty array
+         albumSelect(d3.selectAll(".selected").data());
+       })
       //Timeline Scroller
       function mousemove() {
         const xcoord = d3.mouse(this)[0];
@@ -245,8 +269,6 @@ class Visual extends React.Component {
                 .style("margin-left", xpos - w/2 - 7 + "px")
                 .style("top", 42 + margin.top + "px")
                 .select("#title").text(d.title);
-
-             focus.append('div').text('hello')
 
               d3.select("#year").text(` (${formatYear(d.release_date)})`)
               d3.select("#artist").text(`${d.artists[0].name}`)
