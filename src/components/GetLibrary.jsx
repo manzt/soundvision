@@ -23,18 +23,23 @@ class GetLibrary extends React.Component {
     }
   }
   componentWillMount() {
-    const { setUser, importLibrary } = this.props;
+    const { setUser } = this.props;
     axios.get("/api/userInfo").then(({data}) => {
       setUser(data.userInfo.displayName, data.userInfo.photo);
-      importLibrary(data.library)
+      this.props.importLibrary(data.library)
     })
   }
 
-  updateLibrary() {
+  async updateLibrary() {
     this.setState({loading: true});
-    axios.get('/api/updateLibrary').then((data) => {
+    try {
+      await axios.get('/api/updateLibrary')
+      let { data } = await axios.get('/api/albums')
+      this.props.importLibrary(data.library);
       this.props.app.setState({mode: 'home'})
-    }).catch(function(err){ console.log(err) });
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   render() {

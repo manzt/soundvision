@@ -4,18 +4,9 @@ import Album from './Album';
 import logo from '../logo.svg';
 import Playlist from './Playlist';
 import Visual from './Visual';
-import axios from 'axios';
 import { handleLibraryImport } from '../actions/index';
 
 class Home extends React.Component {
-  componentWillMount() {
-    const { importLibrary } = this.props;
-    if (this.props.library.length === 0) {
-      axios.get('/api/albums').then(({data}) => {
-        if (data.success) importLibrary(data.albums)
-      })
-    }
-  }
   render() {
     return (
       <div style={{display: "block", alignText: "center"}}>

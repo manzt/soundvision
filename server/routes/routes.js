@@ -57,7 +57,7 @@ module.exports = function() {
 
       let tracks = [];
       let uniqTracks = await getTracks(spotify, tracks);
-      getUniqAlbums(req.user, spotify, uniqTracks,() => res.json({success: true}));
+      await getUniqAlbums(req.user, spotify, uniqTracks,() => res.json({success: true}));
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +66,7 @@ module.exports = function() {
   router.get('/albums', async (req, res) => {
     try {
       let user = await User.findById(req.user._id).populate('albums.album');
-      res.json({ success: true, albums: user.albums});
+      res.json({library: user.albums});
     } catch (error) {
       console.log(error);
     }
@@ -144,7 +144,7 @@ const getUniqAlbums = async (user, spotify, uniqAlbums, done, limit = 20, offset
       albumArr.forEach(album => uniqAlbumObjs.push(album))
     });
 
-    uniqAlbumObjs.forEach(async album => {
+    await Promise.all(uniqAlbumObjs.map(async album => {
       let albumArtists = album.albumObj.artists.map(artist => ({ name: artist.name, id: artist.id }));
       let albumImages = album.albumObj.images;
       let albumTracks = album.albumObj.tracks.items.map(track => ({
@@ -172,10 +172,10 @@ const getUniqAlbums = async (user, spotify, uniqAlbums, done, limit = 20, offset
       let newAlbum = await Album.findOneAndUpdate(albumQuery, albumDB, options);
       dbUser.albums.push({ date_added: album.added_at, album: newAlbum._id });
       dbUser.save();
-    })
+    }))
   } catch (error) {
     console.log(error);
   } finally {
-    done();
+    return done();
   }
 }

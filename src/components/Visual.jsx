@@ -64,7 +64,7 @@ class Visual extends React.Component {
     let extent = d3.extent(dataset, d => d.date_added);
 
     //set x-axis domains
-    xScale.domain([d3.timeDay.offset(extent[0], -1), d3.timeDay.offset(extent[1], 1)]),
+    xScale.domain([d3.timeDay.offset(extent[0], -1), d3.timeDay.offset(extent[1], 1)])
     xScale2.domain(xScale.domain());
 
     // Determine the first and last dates in the data set
@@ -87,8 +87,7 @@ class Visual extends React.Component {
 
     //set y-scale domain for bottom histogram
     yScale2.domain([0, d3.max(bins2, d => d.length)]);
-    console.log(bins2)
-
+    
     //append svg group to svg for top visual
     const top = svg.append("g")
                    .attr("class", "top")
@@ -257,7 +256,7 @@ class Visual extends React.Component {
             .attr("cy", d =>  - d.idx * 2 * d.radius - d.radius)
             .attr("r", d => d.radius)
             .style("fill", d => {
-              let year = parseInt(formatYear(d.release_date))
+              let year = parseInt(formatYear(d.release_date),10)
               return getColor(year)
             })
             .on("mouseover", function(d) {
