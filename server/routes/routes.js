@@ -38,10 +38,9 @@ module.exports = function() {
     } catch (error){
       console.log(error);
     }
-
   });
 
-  router.get('/updateLibrary', (req, res) => {
+  router.get('/importLibrary', async (req, res) => {
     const spotify = new SpotifyWebApi({
       clientId: process.env.SPOTIFY_CLIENT_ID,
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
@@ -49,7 +48,30 @@ module.exports = function() {
       accessToken: req.user.accessToken.toString(),
       refreshToken: req.user.refreshToken.toString()
     });
-    getAlbums(20, 0, req.user, spotify, () => res.json({success: true}))
+    try {
+      let tracks = [];
+      let uniqTracks = await getTracks(spotify, tracks);
+      getUniqAlbums(req.user, spotify, uniqTracks,() => res.json({success: true}));
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  router.get('/updateLibrary', async (req, res) => {
+    const spotify = new SpotifyWebApi({
+      clientId: process.env.SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+      redirectUri: process.env.REDIRECT_URI,
+      accessToken: req.user.accessToken.toString(),
+      refreshToken: req.user.refreshToken.toString()
+    });
+    try {
+      let tracks = [];
+      let uniqTracks = await getTracks(spotify, tracks);
+      getUniqAlbums(req.user, spotify, uniqTracks,() => res.json({success: true}));
+    } catch (error) {
+      console.log(error);
+    }
   });
 
   router.get('/albums', async (req, res) => {
@@ -71,7 +93,6 @@ module.exports = function() {
     });
     try {
       const tracks = req.body.tracks.map(trackid => 'spotify:track:' + trackid);
-      console.log(tracks, req.body.name)
       const playlist = await spotify.createPlaylist(req.user.spotifyID, req.body.name, { 'public' : false });
       spotify.addTracksToPlaylist(req.user.spotifyID, playlist.body.id, tracks)
     } catch (error) {
@@ -83,57 +104,92 @@ module.exports = function() {
   return router;
 }
 
-const getAlbums = async (limit, offset, user, spotify, done) => {
-  let data = await spotify.getMySavedTracks({ limit: limit, offset: offset });
-  let addedAlbum = data.body.items.map(item => {
-    return {
-      added_at: item.added_at,
-      id: item.track.album.id,
-      albumObj: {}
+const getTracks = async (spotify, tracks, limit = 50, offset = 0) => {
+  try {
+    let data = await spotify.getMySavedTracks({ limit: limit, offset: offset });
+    let albums = data.body.items.map(item => {
+      return {
+        added_at: item.added_at,
+        id: item.track.album.id,
+        albumObj: {}
+      }
+    });
+
+    albums.forEach(album => tracks.push(album));
+
+    if (albums.length === limit) {
+      return await getTracks(spotify, tracks, limit, offset+limit)
+    } else {
+      let uniqAlbums = _.uniq(tracks, album => album.id);
+      return uniqAlbums;
     }
-  });
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-  let uniqAlbums = _.uniq(addedAlbum, album => album.id);
-  let albumObjs = await spotify.getAlbums(uniqAlbums.map(album => album.id));
+const getUniqAlbums = async (user, spotify, uniqAlbums, done, limit = 20, offset = 0) => {
+  let pages = Math.floor(uniqAlbums.length / limit);
+  let finalCallLength = uniqAlbums.length % limit;
 
-  for (let i = 0; i < uniqAlbums.length; i++) {
-    uniqAlbums[i].albumObj = albumObjs.body.albums[i]
+  let promises = [];
+  for (let i = 0; i <= pages; i++) {
+    promises.push(
+      uniqAlbums.slice(limit * i, (i === pages ? finalCallLength : limit) + (limit * i))
+    );
   }
 
-  Promise.all(uniqAlbums.map( async (album) => {
-    let albumArtists = album.albumObj.artists.map(artist => ({ name: artist.name, id: artist.id }));
-    let albumImages = album.albumObj.images;
-    let albumTracks = album.albumObj.tracks.items.map(track => ({
-      artists: track.artists.map(artist => ({ name: artist.name, id: artist.id })),
-      id: track.id,
-      name: track.name,
-      track_number: track.track_number
-    }));
+  try {
+    let albumObjs = await Promise.all(promises.map(promise =>
+      spotify.getAlbums(promise.map(album => album.id)))
+    );
 
-    const albumQuery = { "id": album.id };
-
-    const albumDB = {
-      id: album.id,
-      artists: albumArtists,
-      images: albumImages,
-      name: album.albumObj.name,
-      popularity: album.albumObj.popularity,
-      release_date: album.albumObj.release_date,
-      tracks: albumTracks
-    };
-
-    const options = { upsert: true, new: true };
-
-    let albumObj = await Album.findOneAndUpdate(albumQuery, albumDB, options);
-    let exists = await user.albums.find(item => albumObj._id.equals(item.ref));
-    if(!exists) {
-      await User.findById(user._id).then(user => {
-        user.albums.push({ date_added: album.added_at, album: albumObj._id });
-        user.save();
-      })
+    for (let i = 0; i < promises.length; i++) {
+      for (let j = 0; j < promises[i].length; j++) {
+        promises[i][j].albumObj = albumObjs[i].body.albums[j];
+      }
     }
-  })).then(() => {
-    if (addedAlbum.length === limit) getAlbums(limit, offset+limit, user, spotify, done);
-    else done();
-  })
+
+    let uniqAlbumObjs = [];
+    promises.forEach(albumArr => {
+      albumArr.forEach(album => uniqAlbumObjs.push(album))
+    });
+
+    await uniqAlbumObjs.forEach(async album => {
+      let albumArtists = album.albumObj.artists.map(artist => ({ name: artist.name, id: artist.id }));
+      let albumImages = album.albumObj.images;
+      let albumTracks = album.albumObj.tracks.items.map(track => ({
+        artists: track.artists.map(artist => ({ name: artist.name, id: artist.id })),
+        id: track.id,
+        name: track.name,
+        track_number: track.track_number
+      }));
+
+      const albumQuery = { "id": album.id };
+
+      const albumDB = {
+        id: album.id,
+        artists: albumArtists,
+        images: albumImages,
+        name: album.albumObj.name,
+        popularity: album.albumObj.popularity,
+        release_date: album.albumObj.release_date,
+        tracks: albumTracks
+      };
+
+      const options = { upsert: true, new: true };
+
+      let dbUser = await User.findById(user._id);
+      let newAlbum = await Album.findOneAndUpdate(albumQuery, albumDB, options);
+      let exists = await dbUser.albums.find(item => newAlbum._id.equals(item.ref));
+      if (!exists) {
+        await dbUser.albums.push({ date_added: album.added_at, album: newAlbum._id });
+        await dbUser.save();
+      }
+    })
+  } catch (error) {
+    console.log(error);
+  } finally {
+    done();
+  }
 }

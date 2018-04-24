@@ -9,7 +9,7 @@ import { handleLibraryImport } from '../actions/index';
 //import { CircularProgress } from 'material-ui';
 
 class Home extends React.Component {
-  componentWillMount(){
+  componentDidMount(){
     const { importLibrary } = this.props;
     if (this.props.library.length === 0) {
       axios.get('/api/albums').then(({data}) => {
