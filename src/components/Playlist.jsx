@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Paper, TextField, List, Snackbar, IconButton, RadioButton } from 'material-ui';
+import { Paper, TextField, List, Snackbar, IconButton } from 'material-ui';
 import Refresh from 'material-ui/svg-icons/navigation/refresh';
 import FileUpload from 'material-ui/svg-icons/file/file-upload';
 import RadioButtonChecked from 'material-ui/svg-icons/toggle/radio-button-checked';
@@ -23,7 +23,9 @@ const styles = {
   },
 };
 const iconColor = '#d5d5d5';
-const hoverColor = '#a6a2a2';
+// const hoverColor = '#a6a2a2';
+const checkedColor = '#b6a6cd';
+// const hoverColor = '#24cf5f';
 
 class Playlist extends React.Component {
   constructor(props) {
@@ -81,11 +83,9 @@ class Playlist extends React.Component {
                 {this.props.albumSelection.length === 0 ?
                   <RadioButtonUnchecked
                     color={iconColor}
-                    //hoverColor={hoverColor}
                   /> :
                   <RadioButtonChecked
-                    color={hoverColor}
-                    //hoverColor={hoverColor}
+                    color={checkedColor}
                   />}
               </IconButton>
               <IconButton
@@ -95,11 +95,14 @@ class Playlist extends React.Component {
                 disableTouchRipple={true}
                 iconStyle={styles.icon}
                 hoveredStyle={styles.hover}
-                onClick={() => this.props.app.setState({mode: 'getLibrary'})}
+                onClick={() => {
+                  this.props.albumSelect([]);
+                  this.props.clearSongSelection();
+                  this.props.app.setState({mode: 'getLibrary'})
+                }}
                 >
                 <Refresh
                   color={iconColor}
-                  // hoverColor={hoverColor}
                 />
               </IconButton>
               <IconButton
@@ -113,7 +116,6 @@ class Playlist extends React.Component {
                 onClick={this.createPlaylist} >
                 <FileUpload
                   color={iconColor}
-                  // hoverColor={hoverColor}
                 />
               </IconButton>
             </div>

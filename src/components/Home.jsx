@@ -5,23 +5,6 @@ import logo from '../logo.svg';
 import Playlist from './Playlist';
 import Visual from './Visual';
 
-import FileUpload from 'material-ui/svg-icons/file/file-upload';
-import { IconButton } from 'material-ui';
-
-const styles = {
-  icon: {
-    width: 10,
-    height: 10,
-    fill: '#636363',
-    opacity: '0.3'
-  },
-  button: {
-    width: 10,
-    height: 10,
-    padding: 0,
-  },
-};
-
 class Home extends React.Component {
   render() {
     return (

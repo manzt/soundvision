@@ -14,6 +14,9 @@ const style = {
   marginTop: "30%"
 }
 
+const color = '#b6a6cd';
+// const color = '#24cf5f';
+
 class GetLibrary extends React.Component {
   constructor(props) {
     super(props);
@@ -54,7 +57,7 @@ class GetLibrary extends React.Component {
             "Updating your music Library. This should take a few minutes..."
           }
         />
-        {this.state.loading ? <CircularProgress /> : null}
+        {this.state.loading ? <CircularProgress color={color}/> : null}
       </Card>
     </div>
   }
