@@ -16,7 +16,7 @@ passport.use('spotify', new SpotifyStrategy({
   clientSecret: client_secret,
   callbackURL: redirect_uri
 }, async (accessToken, refreshToken, expires_in, profile, done) => {
-  //console.log(profile)
+
   const searchQuery = {
     spotifyID: profile.id
   };

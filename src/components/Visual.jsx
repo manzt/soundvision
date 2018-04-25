@@ -171,21 +171,6 @@ class Visual extends React.Component {
     // removes crosshair cursor:
     d3.selectAll('.brush>.overlay').remove();
 
-    //create circle to remove all .selected when clicked
-    top.append("circle")
-       .attr("cx", w)
-       .attr("cy", 20)
-       .attr("r", 10)
-       .style("fill", "#b6a6cd")
-       .style("fill-opacity", "0.7")
-       .on("click", () => {
-         d3.selectAll(".selected")
-           .classed("selected", false)
-           .style('fill-opacity', "0.5")
-           .style('stroke-width', "0")
-         //sends dispatch to update album selection to an empty array
-         albumSelect(d3.selectAll(".selected").data());
-       })
       //Timeline Scroller
       function mousemove() {
         const xcoord = d3.mouse(this)[0];

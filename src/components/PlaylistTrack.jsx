@@ -17,7 +17,10 @@ const innerStyle = {
 const smallIcon = {
   width: 15,
   height: 15,
+  fill: '#636363',
+  opacity: '0.3',
 }
+
 const buttonStyle = {
   width: 10,
   height: 10,

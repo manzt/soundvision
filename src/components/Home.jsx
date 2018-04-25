@@ -5,19 +5,39 @@ import logo from '../logo.svg';
 import Playlist from './Playlist';
 import Visual from './Visual';
 
+import FileUpload from 'material-ui/svg-icons/file/file-upload';
+import { IconButton } from 'material-ui';
+
+const styles = {
+  icon: {
+    width: 10,
+    height: 10,
+    fill: '#636363',
+    opacity: '0.3'
+  },
+  button: {
+    width: 10,
+    height: 10,
+    padding: 0,
+  },
+};
+
 class Home extends React.Component {
   render() {
     return (
       <div style={{display: "block", alignText: "center"}}>
-        <img
-          src={logo}
-          className="App-logo"
-          alt="logo"
-          style={{width: "200px"}}
-        />
+        <div>
+          <img
+            src={logo}
+            className="App-logo"
+            alt="logo"
+            style={{width: "200px"}}
+          />
+        </div>
         {this.props.library.length === 0 ? null : <Visual />}
-        {this.props.albumSelection.map(item => <Album album={item} key={item.id}/>)}
         <Playlist app={this.props.app}/>
+        {this.props.albumSelection.map(item => <Album album={item} key={item.id}/>)}
+        {/* <Playlist app={this.props.app}/> */}
       </div>
     )
   }

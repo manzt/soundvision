@@ -8,6 +8,10 @@ const SpotifyWebApi = require('spotify-web-api-node');
 const bodyParser = require('body-parser');
 router.use(bodyParser());
 
+//secrets
+const client_id = process.env.SPOTIFY_CLIENT_ID;
+const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+const redirect_uri = process.env.REDIRECT_URI;
 
 module.exports = function() {
 
@@ -42,9 +46,9 @@ module.exports = function() {
 
   router.get('/updateLibrary', async (req, res) => {
     const spotify = new SpotifyWebApi({
-      clientId: process.env.SPOTIFY_CLIENT_ID,
-      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-      redirectUri: process.env.REDIRECT_URI,
+      clientId: client_id,
+      clientSecret: client_secret,
+      redirectUri: redirect_uri,
       accessToken: req.user.accessToken.toString(),
       refreshToken: req.user.refreshToken.toString()
     });
@@ -57,7 +61,7 @@ module.exports = function() {
 
       let tracks = [];
       let uniqTracks = await getTracks(spotify, tracks);
-      await getUniqAlbums(req.user, spotify, uniqTracks,() => res.json({success: true}));
+      await getUniqAlbums(req.user, spotify, uniqTracks, () => res.json({success: true}));
     } catch (error) {
       console.log(error);
     }
@@ -74,9 +78,9 @@ module.exports = function() {
 
   router.post('/createPlaylist', async (req, res) => {
     const spotify = new SpotifyWebApi({
-      clientId: process.env.SPOTIFY_CLIENT_ID,
-      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-      redirectUri: process.env.REDIRECT_URI,
+      clientId: client_id,
+      clientSecret: client_secret,
+      redirectUri: redirect_uri,
       accessToken: req.user.accessToken.toString(),
       refreshToken: req.user.refreshToken.toString()
     });
@@ -119,12 +123,12 @@ const getTracks = async (spotify, tracks, limit = 50, offset = 0) => {
 
 const getUniqAlbums = async (user, spotify, uniqAlbums, done, limit = 20, offset = 0) => {
   let pages = Math.floor(uniqAlbums.length / limit);
-  let finalCallLength = uniqAlbums.length % limit;
+  let finalCallLimit = uniqAlbums.length % limit;
 
   let promises = [];
   for (let i = 0; i <= pages; i++) {
     promises.push(
-      uniqAlbums.slice(limit * i, (i === pages ? finalCallLength : limit) + (limit * i))
+      uniqAlbums.slice(limit * i, (i === pages ? finalCallLimit : limit) + (limit * i))
     );
   }
 

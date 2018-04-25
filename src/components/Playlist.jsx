@@ -1,25 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Paper, TextField, List, Snackbar, IconButton } from 'material-ui';
+import { Paper, TextField, List, Snackbar, IconButton, RadioButton } from 'material-ui';
 import Refresh from 'material-ui/svg-icons/navigation/refresh';
 import FileUpload from 'material-ui/svg-icons/file/file-upload';
+import RadioButtonChecked from 'material-ui/svg-icons/toggle/radio-button-checked';
+import RadioButtonUnchecked from 'material-ui/svg-icons/toggle/radio-button-unchecked';
+
 import PlaylistTrack from './PlaylistTrack';
 import axios from 'axios';
-import { handleClearSongSelection } from '../actions/index';
+import { handleClearSongSelection, handleAlbumSelection } from '../actions/index';
+import * as d3 from 'd3';
 
 const styles = {
   icon: {
-    width: 20,
-    height: 20,
-    fill: '#636363',
-    opacity: '0.3'
+    width: 18,
+    height: 18,
   },
-  button: {
-    width: 25,
-    height: 25,
-    padding: 0,
+  icon2: {
+    width: 16,
+    height: 16,
+    paddingBottom: 1
   },
 };
+const iconColor = '#d5d5d5';
+const hoverColor = '#a6a2a2';
 
 class Playlist extends React.Component {
   constructor(props) {
@@ -52,29 +56,65 @@ class Playlist extends React.Component {
   render() {
     return (
       <div>
-        <Paper id="playlist" zDepth={1}>
+        <Paper id="playlist" zDepth={0}>
           <div style={{display: "flex", justifyContent: "space-between"}}>
             <TextField
               value={this.state.title}
               hintText='New Playlist'
-              underlineShow={false}
+              underlineFocusStyle	={{'borderBottom': 'none'}}
+              // underlineShow={false}
               onChange={(e) => this.setState({ title: e.target.value })}
             />
             <div>
               <IconButton
+                iconStyle={styles.icon2}
+                disableTouchRipple={true}
+                onClick={() => {
+                  d3.selectAll(".selected")
+                    .classed("selected", false)
+                    .style('fill-opacity', "0.5")
+                    .style('stroke-width', "0")
+                  //sends dispatch to update album selection to an empty array
+                  this.props.albumSelect(d3.selectAll(".selected").data());
+                }}
+                >
+                {this.props.albumSelection.length === 0 ?
+                  <RadioButtonUnchecked
+                    color={iconColor}
+                    //hoverColor={hoverColor}
+                  /> :
+                  <RadioButtonChecked
+                    color={hoverColor}
+                    //hoverColor={hoverColor}
+                  />}
+              </IconButton>
+              <IconButton
                 tooltip='UPDATE LIBRARY'
                 tooltipPosition='top-left'
+                tooltipStyles={{fontSize: '8px'}}
+                disableTouchRipple={true}
                 iconStyle={styles.icon}
+                hoveredStyle={styles.hover}
                 onClick={() => this.props.app.setState({mode: 'getLibrary'})}
                 >
-                <Refresh/>
+                <Refresh
+                  color={iconColor}
+                  // hoverColor={hoverColor}
+                />
               </IconButton>
               <IconButton
                 tooltip='CREATE PLAYLIST'
                 tooltipPosition='top-right'
+                tooltipStyles={{fontSize: '8px'}}
                 iconStyle={styles.icon}
+                disableTouchRipple={true}
+                hoveredStyle={styles.hover}
+                //style={styles.button}
                 onClick={this.createPlaylist} >
-                <FileUpload/>
+                <FileUpload
+                  color={iconColor}
+                  // hoverColor={hoverColor}
+                />
               </IconButton>
             </div>
           </div>
@@ -96,11 +136,14 @@ class Playlist extends React.Component {
   }
 }
 
-const mapStateToProps = ({ songSelection }) => ({ songSelection });
+const mapStateToProps = ({ songSelection, albumSelection }) => ({ songSelection, albumSelection });
 
 const mapDispatchToProps = dispatch => ({
   clearSongSelection: () => {
     dispatch(handleClearSongSelection());
+  },
+  albumSelect: (albumSelection) => {
+    dispatch(handleAlbumSelection(albumSelection));
   }
 });
 
