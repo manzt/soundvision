@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Paper, TextField, List, FlatButton, Snackbar, IconButton } from 'material-ui';
-import PlaylistAddCheck from 'material-ui/svg-icons/av/playlist-add-check';
+import { Paper, TextField, List, Snackbar, IconButton } from 'material-ui';
 import Refresh from 'material-ui/svg-icons/navigation/refresh';
 import FileUpload from 'material-ui/svg-icons/file/file-upload';
 import PlaylistTrack from './PlaylistTrack';
@@ -53,7 +52,7 @@ class Playlist extends React.Component {
   render() {
     return (
       <div>
-        <Paper id="playlist">
+        <Paper id="playlist" zDepth={1}>
           <div style={{display: "flex", justifyContent: "space-between"}}>
             <TextField
               value={this.state.title}
@@ -64,7 +63,7 @@ class Playlist extends React.Component {
             <div>
               <IconButton
                 tooltip='UPDATE LIBRARY'
-                tooltipPosition='bottom-left'
+                tooltipPosition='top-left'
                 iconStyle={styles.icon}
                 onClick={() => this.props.app.setState({mode: 'getLibrary'})}
                 >
@@ -72,7 +71,7 @@ class Playlist extends React.Component {
               </IconButton>
               <IconButton
                 tooltip='CREATE PLAYLIST'
-                tooltipPosition='bottom-right'
+                tooltipPosition='top-right'
                 iconStyle={styles.icon}
                 onClick={this.createPlaylist} >
                 <FileUpload/>

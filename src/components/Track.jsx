@@ -21,7 +21,7 @@ class Track extends React.Component {
         className="track_list"
         innerDivStyle={innerStyle}
         //send track id and other info to playlist
-        onClick={() => songSelect(track)}>
+        onClick={() => { console.log(this); return songSelect(track)} }>
         <span style={numberStyle}>{track.track_number}.</span> {track.name}
       </ListItem>
     )

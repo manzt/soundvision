@@ -6,7 +6,7 @@ export default class Album extends React.Component {
   render() {
     const { album } = this.props;
     return (
-        <Paper className="album">
+        <Paper className="album" zDepth={0}>
           <div>
             <Paper style={{padding: "5px"}}>
               <img alt="" src={album.images[1].url} height="150" width="150"/>

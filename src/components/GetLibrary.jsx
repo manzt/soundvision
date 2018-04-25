@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { CircularProgress } from 'material-ui';
-import {Card, CardActions, CardTitle} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import {Card, CardTitle} from 'material-ui/Card';
 import logo from '../logo.svg'
 
 import { handleLibraryImport } from '../actions/index';
