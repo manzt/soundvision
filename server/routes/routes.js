@@ -28,7 +28,7 @@ module.exports = function() {
     try {
       const user = await User.findById(req.user._id).populate('albums.album')
       res.json({
-        sucess: true,
+        success: true,
         userInfo: {
           displayName: user.displayName,
           photo: user.photo,
@@ -82,7 +82,7 @@ module.exports = function() {
     });
     try {
       const tracks = req.body.tracks.map(trackid => 'spotify:track:' + trackid);
-      const playlist = await spotify.createPlaylist(req.user.spotifyID, req.body.name, { 'public' : false });
+      const playlist = await spotify.createPlaylist(req.user.spotifyID, req.body.name ? req.body.name : 'SOUNDVISION PLAYLIST' , { 'public' : false });
       spotify.addTracksToPlaylist(req.user.spotifyID, playlist.body.id, tracks)
     } catch (error) {
       console.log(error);

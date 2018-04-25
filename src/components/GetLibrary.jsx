@@ -5,7 +5,7 @@ import {Card, CardActions, CardTitle} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import logo from '../logo.svg'
 
-import { handleLibraryImport, handleUserInfo } from '../actions/index';
+import { handleLibraryImport } from '../actions/index';
 import axios from 'axios';
 
 const style = {
@@ -22,12 +22,8 @@ class GetLibrary extends React.Component {
       loading: false
     }
   }
-  componentWillMount() {
-    const { setUser } = this.props;
-    axios.get("/api/userInfo").then(({data}) => {
-      setUser(data.userInfo.displayName, data.userInfo.photo);
-      this.props.importLibrary(data.library)
-    })
+  async componentWillMount() {
+    this.updateLibrary();
   }
 
   async updateLibrary() {
@@ -51,16 +47,16 @@ class GetLibrary extends React.Component {
           alt="logo"
           style={{width: "500px"}}
         />
-      {this.props.displayName === 'unknown' ? null :
         <Card>
         <CardTitle
           title={`${welcomeString}${this.props.displayName.split(" ")[0]}!`}
-          subtitle={this.state.loading ?
+          subtitle={this.props.library.length === 0 ?
             "Preparing your music library. This could take a few minutes..." :
-            "Prepare to explore your music listening history."}
+            "Updating your music Library. This should take a few minutes..."
+          }
         />
-        {this.state.loading ? <CircularProgress /> :
-          <CardActions>
+        {this.state.loading ? <CircularProgress /> : null}
+          {/* <CardActions>
             {this.props.library.length === 0 ?
               <FlatButton
                 label="Import Library"
@@ -77,10 +73,8 @@ class GetLibrary extends React.Component {
                       label="Continue without Update"
                       onClick={() => this.props.app.setState({mode: 'home'})} />
                     </div>}
-          </CardActions>
-        }
+          </CardActions> */}
       </Card>
-      }
     </div>
   }
 }
@@ -88,9 +82,6 @@ class GetLibrary extends React.Component {
 const mapStateToProps = ({ displayName, photo, library }) => ({ displayName, photo, library });
 
 const mapDispatchToProps = dispatch => ({
-  setUser: (displayName, photo) => {
-    dispatch(handleUserInfo(displayName, photo));
-  },
   importLibrary: (library) => {
     dispatch(handleLibraryImport(library));
   }

@@ -87,7 +87,7 @@ class Visual extends React.Component {
 
     //set y-scale domain for bottom histogram
     yScale2.domain([0, d3.max(bins2, d => d.length)]);
-    
+
     //append svg group to svg for top visual
     const top = svg.append("g")
                    .attr("class", "top")
@@ -295,7 +295,7 @@ class Visual extends React.Component {
            .on("mousedown", function() {
              let dot = d3.select(this);
              dot.classed('selected', !dot.classed('selected'));
-             console.log(d3.selectAll(".selected").data());
+            // console.log(d3.selectAll(".selected").data());
              albumSelect(d3.selectAll(".selected").data());
            })
         binContainerEnter.merge(binContainer)

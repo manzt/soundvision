@@ -1,10 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Paper, TextField, List, FlatButton, Snackbar } from 'material-ui';
+import { Paper, TextField, List, FlatButton, Snackbar, IconButton } from 'material-ui';
 import PlaylistAddCheck from 'material-ui/svg-icons/av/playlist-add-check';
+import Refresh from 'material-ui/svg-icons/navigation/refresh';
+import FileUpload from 'material-ui/svg-icons/file/file-upload';
 import PlaylistTrack from './PlaylistTrack';
 import axios from 'axios';
 import { handleClearSongSelection } from '../actions/index';
+
+const styles = {
+  icon: {
+    width: 20,
+    height: 20,
+  },
+  button: {
+    width: 25,
+    height: 25,
+    padding: 0,
+  },
+};
 
 class Playlist extends React.Component {
   constructor(props) {
@@ -45,12 +59,23 @@ class Playlist extends React.Component {
               underlineShow={false}
               onChange={(e) => this.setState({ title: e.target.value })}
             />
-            <FlatButton
-              label="create playlist"
-              labelPosition="before"
-              icon={<PlaylistAddCheck/>}
-              onClick={this.createPlaylist}
-            />
+            <div>
+              <IconButton
+                tooltip='UPDATE LIBRARY'
+                tooltipPosition='bottom-left'
+                iconStyle={styles.icon}
+                onClick={() => this.props.app.setState({mode: 'getLibrary'})}
+                >
+                <Refresh/>
+              </IconButton>
+              <IconButton
+                tooltip='CREATE PLAYLIST'
+                tooltipPosition='bottom-right'
+                iconStyle={styles.icon}
+                onClick={this.createPlaylist} >
+                <FileUpload/>
+              </IconButton>
+            </div>
           </div>
           <div className='tracks'>
             <List>

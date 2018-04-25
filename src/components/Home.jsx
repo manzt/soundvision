@@ -4,7 +4,6 @@ import Album from './Album';
 import logo from '../logo.svg';
 import Playlist from './Playlist';
 import Visual from './Visual';
-import { handleLibraryImport } from '../actions/index';
 
 class Home extends React.Component {
   render() {
@@ -18,7 +17,7 @@ class Home extends React.Component {
         />
         {this.props.library.length === 0 ? null : <Visual />}
         {this.props.albumSelection.map(item => <Album album={item} key={item.id}/>)}
-          <Playlist/>
+        <Playlist app={this.props.app}/>
       </div>
     )
   }
@@ -26,10 +25,4 @@ class Home extends React.Component {
 
 const mapStateToProps = ({ library, albumSelection }) => ({ library, albumSelection });
 
-const mapDispatchToProps = dispatch => ({
-  importLibrary: (library) => {
-    dispatch(handleLibraryImport(library));
-  }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, null)(Home);
