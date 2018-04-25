@@ -24,7 +24,7 @@ const styles = {
 };
 const iconColor = '#d5d5d5';
 const checkedColor = '#b6a6cd';
-// const hoverColor = '#24cf5f';
+const hoverColor = '#24cf5f';
 
 class Playlist extends React.Component {
   constructor(props) {
@@ -57,7 +57,7 @@ class Playlist extends React.Component {
   render() {
     return (
       <div>
-        <Paper id="playlist" zDepth={0}>
+        <Paper id="playlist" zDepth={1}>
           <div style={{display: "flex", justifyContent: "space-between"}}>
             <TextField
               value={this.state.title}
@@ -87,9 +87,9 @@ class Playlist extends React.Component {
                   />}
               </IconButton>
               <IconButton
-                tooltip='UPDATE LIBRARY'
-                tooltipPosition='top-left'
-                tooltipStyles={{fontSize: '8px'}}
+                // tooltip='UPDATE LIBRARY'
+                // tooltipPosition='top-right'
+                // tooltipStyles={{fontSize: '8px'}}
                 disableTouchRipple={true}
                 iconStyle={styles.icon}
                 hoveredStyle={styles.hover}
@@ -101,19 +101,21 @@ class Playlist extends React.Component {
                 >
                 <Refresh
                   color={iconColor}
+                  hoverColor={checkedColor}
                 />
               </IconButton>
               <IconButton
-                tooltip='CREATE PLAYLIST'
-                tooltipPosition='top-right'
-                tooltipStyles={{fontSize: '8px'}}
+                // tooltip='CREATE PLAYLIST'
+                // tooltipPosition='top-right'
+                // tooltipStyles={{fontSize: '8px'}}
                 iconStyle={styles.icon}
                 disableTouchRipple={true}
-                hoveredStyle={styles.hover}
+                hoveredStyle={{color: checkedColor}}
                 //style={styles.button}
                 onClick={this.createPlaylist} >
                 <FileUpload
                   color={iconColor}
+                  hoverColor={checkedColor}
                 />
               </IconButton>
             </div>

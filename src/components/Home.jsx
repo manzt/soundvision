@@ -20,7 +20,6 @@ class Home extends React.Component {
         {this.props.library.length === 0 ? null : <Visual />}
         <Playlist app={this.props.app}/>
         {this.props.albumSelection.map(item => <Album album={item} key={item.id}/>)}
-        {/* <Playlist app={this.props.app}/> */}
       </div>
     )
   }

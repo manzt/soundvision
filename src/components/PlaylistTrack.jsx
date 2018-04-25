@@ -5,38 +5,57 @@ import { handleSongRemove } from '../actions/index';
 
 //import AddIcon from 'material-ui/svg-icons/content/add';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
+import Done from 'material-ui/svg-icons/action/done';
 
 const innerStyle = {
   padding: "5px",
   fontSize: '10px',
   borderBottom: 'solid rgba(160, 160, 160, 0.87) 0.5px',
   display: "flex",
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
 }
 
 const buttonStyle = {
   width: 15,
   height: 15,
   padding: 5,
+  pointerEvents: 'none'
 }
 
 const iconColor = '#d5d5d5';
-const hoverColor = '#b6a6cd'
+// const hoverColor = '#f7f7f7';
+const checkedColor = '#b6a6cd';
+const hoverColor = '#ededed';
+
 
 class PlaylistTrack extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hover: false
+    };
+  };
   render() {
     const { track, removeSong } = this.props;
     return (
       <ListItem
         className="tracks"
         innerDivStyle={innerStyle}
-        disabled={true}
-        rightIconButton={
+        hoverColor={hoverColor}
+        onMouseOver={() => this.setState({hover: true})}
+        onMouseOut={() => this.setState({hover: false})}
+        onClick={() => removeSong(track)}
+        disableTouchRipple={true}
+        rightIconButton={this.state.hover ?
           <ClearIcon
+            color={checkedColor}
+            style={buttonStyle}
+            disable={true}/> :
+          <Done
             color={iconColor}
-            hoverColor={hoverColor}
-            onClick={() => removeSong(track)}
-            style={buttonStyle}/>}
+            style={buttonStyle}
+            disable={true}
+          />}
             >
          <span>{track.name} - {track.artists[0].name}</span>
       </ListItem>
