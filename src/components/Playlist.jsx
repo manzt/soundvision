@@ -23,7 +23,7 @@ const styles = {
   },
 };
 const iconColor = '#d5d5d5';
-// const hoverColor = '#a6a2a2';
+const textColor = '#a6a2a2';
 const checkedColor = '#b6a6cd';
 // const hoverColor = '#24cf5f';
 
@@ -64,7 +64,6 @@ class Playlist extends React.Component {
               value={this.state.title}
               hintText='New Playlist'
               underlineFocusStyle	={{'borderBottom': 'none'}}
-              // underlineShow={false}
               onChange={(e) => this.setState({ title: e.target.value })}
             />
             <div>
@@ -128,7 +127,7 @@ class Playlist extends React.Component {
         </Paper>
         <Snackbar
           open={this.state.open}
-          message="Created your soundvision playlist"
+          message="Created your SOUNDVISION playlist"
           contentStyle={{textAlign: 'center'}}
           autoHideDuration={2000}
           onRequestClose={this.handleRequestClose}

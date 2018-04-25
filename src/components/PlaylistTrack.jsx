@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListItem, IconButton} from 'material-ui';
+import { ListItem} from 'material-ui';
 import { connect } from 'react-redux';
 import { handleSongRemove } from '../actions/index';
 
@@ -14,21 +14,14 @@ const innerStyle = {
   justifyContent: 'space-between'
 }
 
-const smallIcon = {
+const buttonStyle = {
   width: 15,
   height: 15,
-  fill: '#636363',
-  opacity: '0.3',
+  padding: 5,
 }
 
-const buttonStyle = {
-  width: 10,
-  height: 10,
-  padding: 0,
-  display: "flex",
-  justifyContent: "center",
-  alignContent: "center"
-}
+const iconColor = '#d5d5d5';
+const hoverColor = '#b6a6cd'
 
 class PlaylistTrack extends React.Component {
   render() {
@@ -37,13 +30,15 @@ class PlaylistTrack extends React.Component {
       <ListItem
         className="tracks"
         innerDivStyle={innerStyle}
-        onClick={() => removeSong(track)}>
+        disabled={true}
+        rightIconButton={
+          <ClearIcon
+            color={iconColor}
+            hoverColor={hoverColor}
+            onClick={() => removeSong(track)}
+            style={buttonStyle}/>}
+            >
          <span>{track.name} - {track.artists[0].name}</span>
-         <IconButton
-           style={buttonStyle}
-           iconStyle={smallIcon}>
-            <ClearIcon/>
-         </IconButton>
       </ListItem>
     )
   }

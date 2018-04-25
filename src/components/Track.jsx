@@ -20,6 +20,7 @@ class Track extends React.Component {
       <ListItem
         className="track_list"
         innerDivStyle={innerStyle}
+        disableTouchRipple={true}
         //send track id and other info to playlist
         onClick={() => { console.log(this); return songSelect(track)} }>
         <span style={numberStyle}>{track.track_number}.</span> {track.name}
