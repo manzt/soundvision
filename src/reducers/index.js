@@ -24,7 +24,7 @@ const reducer = (state = defaultState, action) => {
         songSelection: [...state.songSelection, action.songSelection]
       };
     case 'REMOVE_SONG':
-      let songs = state.songSelection.filter(item => item.id !== action.song.id)
+      let songs = state.songSelection.filter(item => item.uniqID !== action.song.uniqID)
       return {
         ...state,
         songSelection: songs

@@ -23,7 +23,6 @@ const styles = {
   },
 };
 const iconColor = '#d5d5d5';
-const textColor = '#a6a2a2';
 const checkedColor = '#b6a6cd';
 // const hoverColor = '#24cf5f';
 
@@ -121,7 +120,7 @@ class Playlist extends React.Component {
           </div>
           <div className='tracks'>
             <List>
-             {this.props.songSelection.map(item => <PlaylistTrack track={item} key={item.id}/>)}
+             {this.props.songSelection.map(item => <PlaylistTrack track={item} key={item.uniqID}/>)}
             </List>
           </div>
         </Paper>
