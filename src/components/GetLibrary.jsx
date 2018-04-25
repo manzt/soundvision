@@ -56,24 +56,6 @@ class GetLibrary extends React.Component {
           }
         />
         {this.state.loading ? <CircularProgress /> : null}
-          {/* <CardActions>
-            {this.props.library.length === 0 ?
-              <FlatButton
-                label="Import Library"
-                primary={true}
-                fullWidth={true}
-                disableTouchRipple={true}
-                onClick={() => this.updateLibrary()} /> :
-                <div>
-                  <FlatButton
-                    label="Update Library"
-                    primary={true}
-                    onClick={() => this.updateLibrary()} />
-                    <FlatButton
-                      label="Continue without Update"
-                      onClick={() => this.props.app.setState({mode: 'home'})} />
-                    </div>}
-          </CardActions> */}
       </Card>
     </div>
   }

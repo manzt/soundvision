@@ -12,6 +12,8 @@ const styles = {
   icon: {
     width: 20,
     height: 20,
+    fill: '#636363',
+    opacity: '0.3'
   },
   button: {
     width: 25,
