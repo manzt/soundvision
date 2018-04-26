@@ -4,6 +4,7 @@ const Spotify = require('node-spotify-api');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const serve = require('express-static');
+var compression = require('compression')
 
 //import authorization routes
 const auth = require('./routes/auth');
@@ -17,6 +18,7 @@ const app = express();
 
 // Middlewares
 app.use(morgan('dev'));
+app.use(compression());
 
 if (!process.env.MONGODB_URI) {
   console.error('Cannot find MONGODB_URI.  Run env.sh?');
@@ -33,6 +35,7 @@ app.use(session({
 //Passport
 app.use(passportSpotify.initialize());
 app.use(passportSpotify.session());
+
 
 //Routes
 app.use('/', auth(passportSpotify));
