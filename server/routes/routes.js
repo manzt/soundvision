@@ -19,7 +19,6 @@ module.exports = function() {
     if (req.user) {
       try {
         const user = await User.findById(req.user._id).populate('albums.album')
-        console.log('user found', user)
         res.json({
           loggedIn: true,
           displayName: user.displayName,
@@ -33,6 +32,7 @@ module.exports = function() {
       res.json({ loggedIn: false });
     }
   });
+
 
   router.use(function(req, res, next) {
     if (! req.user) {
