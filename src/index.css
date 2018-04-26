@@ -83,3 +83,12 @@ rect.selection {
 .brush {
   border-width: 0;
 }
+
+/* .axis {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+} */
