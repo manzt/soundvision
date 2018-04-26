@@ -19,17 +19,24 @@ class App extends React.Component {
   async componentDidMount() {
     const { setUser, importLibrary } = this.props;
     try {
-      let res = await axios.get('/api/isAuthenticated')
-      console.log(res.data);
-      res.data.loggedIn === true ? this.setState({mode: 'loggedIn'}) : this.setState({mode: 'loggedOut'});
-      if (this.state.mode === 'loggedIn') {
-        let { data } = await axios.get('/api/userInfo')
+      let { data } = await axios.get('/api/isAuthenticated');
+      if (data.loggedIn) {
         setUser(data.userInfo.displayName, data.userInfo.photo);
         importLibrary(data.library)
-        this.props.library.length === 0 ?
-          this.setState({mode: 'getLibrary'}) :
-          this.setState({mode: 'home'});
-      }
+        this.props.library.length === 0 ? this.setState({mode: 'getLibrary'}) : this.setState({mode: 'home'});
+      } else { this.setState({ mode: 'loggedOut'}) }
+
+      // let res = await axios.get('/api/isAuthenticated')
+      // console.log(res.data);
+      // res.data.loggedIn === true ? this.setState({mode: 'loggedIn'}) : this.setState({mode: 'loggedOut'});
+      // if (this.state.mode === 'loggedIn') {
+      //   let { data } = await axios.get('/api/userInfo')
+      //   setUser(data.userInfo.displayName, data.userInfo.photo);
+      //   importLibrary(data.library)
+      //   this.props.library.length === 0 ?
+      //     this.setState({mode: 'getLibrary'}) :
+      //     this.setState({mode: 'home'});
+      // }
     } catch (error) {
       console.log(error);
     }

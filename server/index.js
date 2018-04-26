@@ -38,7 +38,7 @@ app.use(passportSpotify.session());
 
 
 //Routes
-app.use('/', auth(passportSpotify));
+app.use('/api', auth(passportSpotify));
 app.use('/api', routes());
 
 

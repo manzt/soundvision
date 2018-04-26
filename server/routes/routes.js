@@ -16,7 +16,23 @@ const redirect_uri = process.env.REDIRECT_URI;
 module.exports = function() {
 
   router.get("/isAuthenticated", (req, res) => {
-    req.user ? res.json({ loggedIn: true }) : res.json({ loggedIn: false });
+    if (req.user) {
+      try {
+        const user = await User.findById(req.user._id).populate('albums.album')
+        res.json({
+          success: true,
+          userInfo: {
+            displayName: user.displayName,
+            photo: user.photo,
+          },
+          library: user.albums
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      res.json({ loggedIn: false });
+    }
   });
 
   router.use(function(req, res, next) {

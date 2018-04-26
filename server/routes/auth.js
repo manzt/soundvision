@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 module.exports = function(passport) {
-  router.get('/api/auth/spotify',
+  router.get('/auth/spotify',
   passport.authenticate('spotify', {scope: ['user-read-email', 'user-library-read', 'playlist-modify-public', 'playlist-modify-private' ] }),
   function(req, res){
     console.log('inside auth')
@@ -11,7 +11,7 @@ module.exports = function(passport) {
     // function will not be called.
   });
 
-  router.get('/api/callback',
+  router.get('/callback',
   passport.authenticate('spotify', { failureRedirect: '/' }),
   function(req, res) {
     // Successful authentication, redirect home.
