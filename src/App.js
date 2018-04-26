@@ -16,11 +16,12 @@ class App extends React.Component {
       mode: 'unknown'
     }
   }
-  async componentWillMount() {
+  async componentDidMount() {
     const { setUser, importLibrary } = this.props;
     try {
       let res = await axios.get('/api/isAuthenticated')
-      res.data.loggedIn ? this.setState({mode: 'loggedIn'}) : this.setState({mode: 'loggedOut'});
+      console.log(res.data);
+      res.data.loggedIn === true ? this.setState({mode: 'loggedIn'}) : this.setState({mode: 'loggedOut'});
       if (this.state.mode === 'loggedIn') {
         let { data } = await axios.get('/api/userInfo')
         setUser(data.userInfo.displayName, data.userInfo.photo);

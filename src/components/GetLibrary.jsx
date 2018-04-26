@@ -51,7 +51,7 @@ class GetLibrary extends React.Component {
         />
         <Card>
         <CardTitle
-          title={`${welcomeString}${this.props.displayName.split(" ")[0]}!`}
+          title={`${welcomeString}${this.props.displayName.split(" ")[0] || 'user'}!`}
           subtitle={this.props.library.length === 0 ?
             "Preparing your music library. This could take a few minutes..." :
             "Updating your music Library. This should take a few minutes..."
