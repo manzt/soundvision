@@ -8,13 +8,22 @@ const innerStyle = {
   padding: "5px",
   fontSize: '10px',
   borderBottom: 'solid rgba(160, 160, 160, 0.87) 0.5px',
+  display: 'flex'
 }
 
 const numberStyle = {
+  width: '20px',
   color: "rgba(160, 160, 160, 0.87)"
 }
-// const hoverColor = '#f7f7f7';
-const hoverColor = '#ededed';
+
+const trackStyle = {
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis'
+}
+
+const hoverColor = '#f7f7f7';
+//const hoverColor = '#ededed';
 
 //generates unique ID each time song is added to playlist (allows for duplicates)
 function guidGenerator() {
@@ -35,7 +44,7 @@ class Track extends React.Component {
         hoverColor={hoverColor}
         //send track id and other info to playlist
         onClick={() => songSelect({...track, uniqID: guidGenerator()})} >
-        <span style={numberStyle}>{track.track_number}.</span> {track.name}
+        <div style={numberStyle}>{track.track_number}.</div><div style={trackStyle}>{track.name}</div>
       </ListItem>
     )
   }

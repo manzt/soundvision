@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { handleAlbumSelection } from '../actions/index';
+import { handleAlbumRemove, handleAlbumAdd } from '../actions/index';
 import * as d3 from 'd3';
 import { event as currentEvent } from 'd3-selection';
 
@@ -44,7 +44,7 @@ class Visual extends React.Component {
         xAxis2 = d3.axisBottom(xScale2).ticks(d3.timeYear)
 
     //include library state and albumSelect dispatch from props
-    const { library, albumSelect } = this.props;
+    const { library, addAlbum, removeAlbum } = this.props;
 
     //import data for visualization
     let data = library;
@@ -280,8 +280,7 @@ class Visual extends React.Component {
            .on("mousedown", function() {
              let dot = d3.select(this);
              dot.classed('selected', !dot.classed('selected'));
-            // console.log(d3.selectAll(".selected").data());
-             albumSelect(d3.selectAll(".selected").data());
+             dot.classed('selected') ? addAlbum(dot.data()[0]) : removeAlbum(dot.data()[0]);
            })
         binContainerEnter.merge(binContainer)
             .attr("transform", d => `translate(${xScale(d.x0)}, ${h})`);
@@ -328,8 +327,11 @@ class Visual extends React.Component {
 
 const mapStateToProps = ({ library }) => ({ library });
 const mapDispatchToProps = dispatch => ({
-  albumSelect: (albumSelection) => {
-    dispatch(handleAlbumSelection(albumSelection));
+  addAlbum: (album) => {
+    dispatch(handleAlbumAdd(album));
+  },
+  removeAlbum: (album) => {
+    dispatch(handleAlbumRemove(album));
   }
 })
 

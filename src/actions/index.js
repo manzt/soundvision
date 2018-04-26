@@ -1,6 +1,6 @@
-export function handleAlbumSelection(albumSelection) {
+export function handleClearAlbumSelection(albumSelection) {
   return {
-    type: 'UPDATE_ALBUM_SELECTION',
+    type: 'CLEAR_ALBUM_SELECTION',
     albumSelection,
   };
 }
@@ -37,5 +37,19 @@ export function handleUserInfo(displayName, photo) {
 export function handleClearSongSelection() {
   return {
     type: 'CLEAR_SONG_SELECTION'
+  }
+}
+
+export function handleAlbumAdd(album) {
+  return {
+    type: 'ADD_ALBUM_SELECTION',
+    album
+  }
+}
+
+export function handleAlbumRemove(album) {
+  return {
+    type: 'REMOVE_ALBUM_SELECTION',
+    album
   }
 }

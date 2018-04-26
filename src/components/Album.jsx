@@ -16,7 +16,7 @@ export default class Album extends React.Component {
             <b>{album.title} ({album.release_date.getFullYear()})</b><br/>
             <span>{album.artists[0].name}</span>
             <List>
-              {album.tracks.map(track => <Track track={track} key={track.id}/>)}
+              {album.tracks.map(track => <Track track={{...track, album: album.title}} key={track.id}/>)}
             </List>
           </div>
         </Paper>

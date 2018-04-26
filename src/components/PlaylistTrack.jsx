@@ -12,7 +12,7 @@ const innerStyle = {
   fontSize: '10px',
   borderBottom: 'solid rgba(160, 160, 160, 0.87) 0.5px',
   display: "flex",
-  justifyContent: 'space-between',
+  // justifyContent: 'space-between',
 }
 
 const buttonStyle = {
@@ -22,10 +22,17 @@ const buttonStyle = {
   pointerEvents: 'none'
 }
 
+const trackStyle = {
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
+  marginRight: '10px'
+}
+
 const iconColor = '#d5d5d5';
-// const hoverColor = '#f7f7f7';
+const hoverColor = '#f7f7f7';
 const checkedColor = '#b6a6cd';
-const hoverColor = '#ededed';
+//const hoverColor = '#ededed';
 
 
 class PlaylistTrack extends React.Component {
@@ -49,15 +56,13 @@ class PlaylistTrack extends React.Component {
         rightIconButton={this.state.hover ?
           <ClearIcon
             color={checkedColor}
-            style={buttonStyle}
-            disable={true}/> :
+            style={buttonStyle}/> :
           <Done
             color={iconColor}
-            style={buttonStyle}
-            disable={true}
-          />}
-            >
-         <span>{track.name} - {track.artists[0].name}</span>
+            style={buttonStyle}/>}>
+         <div style={{...trackStyle, width: '200px'}}>{track.name}</div>
+         <div style={{...trackStyle, width: '150px'}}>{track.artists[0].name}</div>
+         <div style={{...trackStyle, width: '150px'}}>{track.album}</div>
       </ListItem>
     )
   }

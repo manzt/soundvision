@@ -8,7 +8,7 @@ import RadioButtonUnchecked from 'material-ui/svg-icons/toggle/radio-button-unch
 
 import PlaylistTrack from './PlaylistTrack';
 import axios from 'axios';
-import { handleClearSongSelection, handleAlbumSelection } from '../actions/index';
+import { handleClearSongSelection, handleClearAlbumSelection } from '../actions/index';
 import * as d3 from 'd3';
 
 const styles = {
@@ -24,7 +24,6 @@ const styles = {
 };
 const iconColor = '#d5d5d5';
 const checkedColor = '#b6a6cd';
-const hoverColor = '#24cf5f';
 
 class Playlist extends React.Component {
   constructor(props) {
@@ -75,7 +74,7 @@ class Playlist extends React.Component {
                     .style('fill-opacity', "0.5")
                     .style('stroke-width', "0")
                   //sends dispatch to update album selection to an empty array
-                  this.props.albumSelect(d3.selectAll(".selected").data());
+                  this.props.clearAlbumSelection();
                 }}
                 >
                 {this.props.albumSelection.length === 0 ?
@@ -94,7 +93,7 @@ class Playlist extends React.Component {
                 iconStyle={styles.icon}
                 hoveredStyle={styles.hover}
                 onClick={() => {
-                  this.props.albumSelect([]);
+                  this.props.clearAlbumSelection();
                   this.props.clearSongSelection();
                   this.props.app.setState({mode: 'getLibrary'})
                 }}
@@ -144,8 +143,8 @@ const mapDispatchToProps = dispatch => ({
   clearSongSelection: () => {
     dispatch(handleClearSongSelection());
   },
-  albumSelect: (albumSelection) => {
-    dispatch(handleAlbumSelection(albumSelection));
+  clearAlbumSelection: () => {
+    dispatch(handleClearAlbumSelection());
   }
 });
 

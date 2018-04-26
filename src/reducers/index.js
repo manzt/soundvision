@@ -13,11 +13,21 @@ const reducer = (state = defaultState, action) => {
         ...state,
         library: action.library
       };
-    case 'UPDATE_ALBUM_SELECTION':
-      return {
-        ...state,
-        albumSelection: action.albumSelection
-      };
+    case 'CLEAR_ALBUM_SELECTION':
+        return {
+          ...state,
+          albumSelection: []
+        };
+    case 'ADD_ALBUM_SELECTION':
+        return {
+          ...state,
+          albumSelection: [action.album, ...state.albumSelection]
+        };
+    case 'REMOVE_ALBUM_SELECTION':
+        return {
+          ...state,
+          albumSelection: state.albumSelection.filter(album => album.id !== action.album.id)
+        };
     case 'UPDATE_SONG_SELECTION':
       return {
         ...state,
@@ -44,5 +54,28 @@ const reducer = (state = defaultState, action) => {
       return state;
   }
 }
+
+// if (action.albumSelection.length === 0) {
+//   return {
+//     ...state,
+//     albumSelection: []
+//   };
+// } else if (action.albumSelection.length > state.albumSelection.length) {
+//   let newAlbum;
+//   let ids = state.albumSelection.map(album => album.id)
+//   action.albumSelection.forEach(album => ids.indexOf(album.id) === -1 ? newAlbum = album : null)
+//   return {
+//     ...state,
+//     albumSelection: [newAlbum, ...state.albumSelection]
+//   };
+// } else {
+//   let deleteId;
+//   let ids = action.albumSelection.map(album => album.id);
+//   state.albumSelection.forEach(album => ids.indexOf(album.id) === -1 ? deleteId = album.id : null);
+//   return {
+//     ...state,
+//     albumSelection: state.albumSelection.filter(album => album.id !== deleteId)
+//   }
+// };
 
 export default reducer;
