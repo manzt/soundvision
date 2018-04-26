@@ -38,6 +38,7 @@ app.use(passportSpotify.session());
 app.use('/', auth(passportSpotify));
 app.use('/api', routes());
 
+
 app.use(serve(__dirname + '/../build'));
 
 
