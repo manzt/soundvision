@@ -23,7 +23,7 @@ class App extends React.Component {
       console.log('isauth', data)
       if (data.loggedIn) {
         console.log('inside logged in')
-        setUser(data.displayName, data.photo);
+        setUser(data.displayName, data.spotifyID);
         importLibrary(data.library)
         this.props.library.length === 0 ? modeChange('getLibrary') : modeChange('home');
       } else { modeChange('loggedOut') }
@@ -44,8 +44,8 @@ class App extends React.Component {
 
 const mapStateToProps = ({ library, mode }) => ({ library, mode });
 const mapDispatchToProps = dispatch => ({
-  setUser: (displayName, photo) => {
-    dispatch(handleUserInfo(displayName, photo));
+  setUser: (displayName, spotifyID) => {
+    dispatch(handleUserInfo(displayName, spotifyID));
   },
   importLibrary: (library) => {
     dispatch(handleLibraryImport(library));

@@ -23,7 +23,7 @@ module.exports = function() {
         res.json({
           loggedIn: true,
           displayName: user.displayName,
-          photo: user.photo,
+          spotifyID: user.spotifyID,
           library: user.albums
         });
       } catch (error) {

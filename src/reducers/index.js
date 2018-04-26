@@ -2,8 +2,8 @@ const defaultState = {
   library: [],
   albumSelection: [],
   songSelection: [],
-  displayName: 'unknown',
-  photo: null,
+  displayName: null,
+  spotifyID: null,
   mode: 'uknown'
 }
 
@@ -44,7 +44,7 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         displayName: action.displayName,
-        photo: action.photo
+        spotifyID: action.spotifyID
       };
     case 'CLEAR_SONG_SELECTION':
       return {

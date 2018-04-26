@@ -27,7 +27,7 @@ passport.use('spotify', new SpotifyStrategy({
     refreshToken: cryptr.encrypt(refreshToken),
     expires_in: expires_in,
     displayName: profile.displayName,
-    photo: profile.photos[0]
+    photo: profile.photos[0],
   }
 
   const options = {

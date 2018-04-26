@@ -42,6 +42,7 @@ class GetLibrary extends React.Component {
 
   render() {
     let welcomeString = this.props.library.length === 0 ? 'Welcome, ' : 'Welcome back, ';
+    let name = this.props.displayName ? this.props.displayName.split(" ")[0] : this.props.spotifyID;
     return <div style={style}>
         <img
           src={logo}
@@ -51,7 +52,7 @@ class GetLibrary extends React.Component {
         />
         <Card>
         <CardTitle
-          title={`${welcomeString}${this.props.displayName.split(" ")[0] || 'user'}!`}
+          title={`${welcomeString} ${name}.`}
           subtitle={this.props.library.length === 0 ?
             "Preparing your music library. This could take a few minutes..." :
             "Updating your music Library. This should take a few minutes..."
