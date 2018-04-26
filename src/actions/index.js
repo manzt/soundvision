@@ -53,3 +53,10 @@ export function handleAlbumRemove(album) {
     album
   }
 }
+
+export function handleModeChange(mode) {
+  return {
+    type: 'MODE_CHANGE',
+    mode
+  }
+}

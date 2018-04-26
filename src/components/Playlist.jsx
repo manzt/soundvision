@@ -8,7 +8,7 @@ import RadioButtonUnchecked from 'material-ui/svg-icons/toggle/radio-button-unch
 
 import PlaylistTrack from './PlaylistTrack';
 import axios from 'axios';
-import { handleClearSongSelection, handleClearAlbumSelection } from '../actions/index';
+import { handleClearSongSelection, handleClearAlbumSelection, handleModeChange } from '../actions/index';
 import * as d3 from 'd3';
 
 const styles = {
@@ -95,7 +95,7 @@ class Playlist extends React.Component {
                 onClick={() => {
                   this.props.clearAlbumSelection();
                   this.props.clearSongSelection();
-                  this.props.app.setState({mode: 'getLibrary'})
+                  this.props.changeMode('getLibrary');
                 }}
                 >
                 <Refresh
@@ -145,6 +145,9 @@ const mapDispatchToProps = dispatch => ({
   },
   clearAlbumSelection: () => {
     dispatch(handleClearAlbumSelection());
+  },
+  changeMode: (mode) => {
+    dispatch(handleModeChange(mode));
   }
 });
 

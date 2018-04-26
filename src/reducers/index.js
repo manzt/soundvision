@@ -3,7 +3,8 @@ const defaultState = {
   albumSelection: [],
   songSelection: [],
   displayName: 'unknown',
-  photo: null
+  photo: null,
+  mode: 'uknown'
 }
 
 const reducer = (state = defaultState, action) => {
@@ -50,6 +51,11 @@ const reducer = (state = defaultState, action) => {
         ...state,
         songSelection: []
       };
+    case 'MODE_CHANGE':
+      return {
+        ...state,
+        mode: action.mode
+      }
     default:
       return state;
   }

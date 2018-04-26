@@ -6,7 +6,7 @@ import GetLibrary from './components/GetLibrary';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { connect } from 'react-redux';
-import { handleLibraryImport, handleUserInfo } from './actions/index';
+import { handleLibraryImport, handleUserInfo, handleModeChange } from './actions/index';
 
 
 class App extends React.Component {
@@ -17,26 +17,16 @@ class App extends React.Component {
     }
   }
   async componentDidMount() {
-    const { setUser, importLibrary } = this.props;
+    const { setUser, importLibrary, modeChange } = this.props;
     try {
       let { data } = await axios.get('/api/isAuthenticated');
+      console.log('isauth', data)
       if (data.loggedIn) {
-        setUser(data.userInfo.displayName, data.userInfo.photo);
+        console.log('inside logged in')
+        setUser(data.displayName, data.photo);
         importLibrary(data.library)
-        this.props.library.length === 0 ? this.setState({mode: 'getLibrary'}) : this.setState({mode: 'home'});
-      } else { this.setState({ mode: 'loggedOut'}) }
-
-      // let res = await axios.get('/api/isAuthenticated')
-      // console.log(res.data);
-      // res.data.loggedIn === true ? this.setState({mode: 'loggedIn'}) : this.setState({mode: 'loggedOut'});
-      // if (this.state.mode === 'loggedIn') {
-      //   let { data } = await axios.get('/api/userInfo')
-      //   setUser(data.userInfo.displayName, data.userInfo.photo);
-      //   importLibrary(data.library)
-      //   this.props.library.length === 0 ?
-      //     this.setState({mode: 'getLibrary'}) :
-      //     this.setState({mode: 'home'});
-      // }
+        this.props.library.length === 0 ? modeChange('getLibrary') : modeChange('home');
+      } else { modeChange('loggedOut') }
     } catch (error) {
       console.log(error);
     }
@@ -44,21 +34,24 @@ class App extends React.Component {
 
   render() {
     return (<MuiThemeProvider>
-      {this.state.mode === 'unknown' ? null :
-      this.state.mode === 'loggedOut' ? (<Login />) :
-      this.state.mode === 'home' ? (<Home app={this}/> ) :
-      this.state.mode === 'getLibrary' ? (<GetLibrary app={this}/>) : null}
+      {this.props.mode === 'unknown' ? null :
+      this.props.mode === 'loggedOut' ? (<Login />) :
+      this.props.mode === 'home' ? (<Home /> ) :
+      this.props.mode === 'getLibrary' ? (<GetLibrary />) : null}
     </MuiThemeProvider>)
   }
 }
 
-const mapStateToProps = ({ library }) => ({ library });
+const mapStateToProps = ({ library, mode }) => ({ library, mode });
 const mapDispatchToProps = dispatch => ({
   setUser: (displayName, photo) => {
     dispatch(handleUserInfo(displayName, photo));
   },
   importLibrary: (library) => {
-    dispatch(handleLibraryImport(library))
+    dispatch(handleLibraryImport(library));
+  },
+  modeChange: (mode) => {
+    dispatch(handleModeChange(mode));
   }
 });
 

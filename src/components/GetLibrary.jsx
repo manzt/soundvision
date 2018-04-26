@@ -4,7 +4,7 @@ import { CircularProgress } from 'material-ui';
 import {Card, CardTitle} from 'material-ui/Card';
 import logo from '../logo.svg'
 
-import { handleLibraryImport } from '../actions/index';
+import { handleLibraryImport, handleModeChange } from '../actions/index';
 import axios from 'axios';
 
 const style = {
@@ -34,7 +34,7 @@ class GetLibrary extends React.Component {
       await axios.get('/api/updateLibrary')
       let { data } = await axios.get('/api/albums')
       this.props.importLibrary(data.library);
-      this.props.app.setState({mode: 'home'})
+      this.props.changeMode('home');
     } catch (error) {
       console.log(error)
     }
@@ -68,6 +68,9 @@ const mapStateToProps = ({ displayName, photo, library }) => ({ displayName, pho
 const mapDispatchToProps = dispatch => ({
   importLibrary: (library) => {
     dispatch(handleLibraryImport(library));
+  },
+  changeMode: (mode) => {
+    dispatch(handleModeChange(mode));
   }
 });
 
