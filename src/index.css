@@ -4,7 +4,13 @@ body {
   font-family: sans-serif;
   display: flex;
   justify-content: center;
-  height: 100%
+  height: 100%;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .album {
@@ -84,7 +90,7 @@ rect.selection {
   border-width: 0;
 }
 
-/* .axis {
+/*  {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
