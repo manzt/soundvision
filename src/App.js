@@ -20,9 +20,7 @@ class App extends React.Component {
     const { setUser, importLibrary, modeChange } = this.props;
     try {
       let { data } = await axios.get('/api/isAuthenticated');
-      console.log('isauth', data)
       if (data.loggedIn) {
-        console.log('inside logged in', data)
         setUser(data.displayName, data.spotifyID);
         importLibrary(data.library)
         this.props.library.length === 0 ? modeChange('getLibrary') : modeChange('home');

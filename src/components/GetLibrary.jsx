@@ -64,7 +64,7 @@ class GetLibrary extends React.Component {
   }
 }
 
-const mapStateToProps = ({ displayName, photo, library }) => ({ displayName, photo, library });
+const mapStateToProps = ({ displayName, photo, library, spotifyID }) => ({ displayName, photo, library, spotifyID });
 
 const mapDispatchToProps = dispatch => ({
   importLibrary: (library) => {
