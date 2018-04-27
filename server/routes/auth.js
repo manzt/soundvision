@@ -4,7 +4,7 @@ const router = express.Router();
 
 module.exports = function(passport) {
   router.get('/auth/spotify',
-  passport.authenticate('spotify', {scope: ['user-read-email', 'user-library-read', 'playlist-modify-public', 'playlist-modify-private' ] }),
+  passport.authenticate('spotify', {scope: ['user-library-read', 'playlist-modify-private'] }),
   function(req, res){
     console.log('inside auth')
     // The request will be redirected to spotify for authentication, so this
@@ -20,3 +20,7 @@ module.exports = function(passport) {
 
   return router;
 }
+
+
+//other permissions
+//'user-read-email', 'playlist-modify-private'
