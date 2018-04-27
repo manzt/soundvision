@@ -26,11 +26,11 @@ export function handleSongRemove(song) {
   }
 }
 
-export function handleUserInfo(displayName, photo) {
+export function handleUserInfo(displayName, spotifyID) {
   return {
     type: 'SET_USER_INFO',
     displayName,
-    photo
+    spotifyID
   }
 }
 
