@@ -11,13 +11,13 @@
 ### Login
 Login is handled using PassportJS for Spotify OAuth, creating a user and passing an access token to make requests from the Spotify Web API.
 <p align="center">
-  <img src="https://media.giphy.com/media/fWfFZrUgTF7hmQSxjV/giphy.gif" width="645" height="450" />
+  <img src="https://media.giphy.com/media/fWfFZrUgTF7hmQSxjV/giphy.gif" width="430" height="300" />
 </p>
 
 ### Selection
 Each selectable node represents an album in the user's Spotify Library and the date which it was saved. On mouseover, a tooltip apears with basic album information. Clicking on a node adds the album with its tracks to a queue at the bottom of the page. You can deselect these elements by either indidually clicking selected nodes or pressing the 'CLEAR SELECTIONS' button under the visual. 
 <p align="center">
-  <img src="https://media.giphy.com/media/3JURBBW6DYNqCKtATg/giphy.gif" width="645" height="450"/>
+  <img src="https://media.giphy.com/media/3JURBBW6DYNqCKtATg/giphy.gif" width="430" height="300"/>
 </p>
 
 ### Creating a Playlist
