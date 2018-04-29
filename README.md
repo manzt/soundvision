@@ -9,7 +9,7 @@
 ## Usage
 
 ### Login
-Login is handled using PassportJS for Spotify OAuth, creating a user and passing an access token to make requests from the Spotify Web API.
+Login is handled using PassportJS for Spotify OAuth, creating a user and passing an access token to make requests from the Spotify Web API. Upon first-time login, the application makes requests to the Spotify Web API to retrieve the user's saved music. The interactive timeline renders once this process completes.
 <p align="center">
   <img src="https://media.giphy.com/media/fWfFZrUgTF7hmQSxjV/giphy.gif" width="430" height="300" />
 </p>
