@@ -21,7 +21,7 @@ Each selectable node represents an album in the user's Spotify Library and the d
 </p>
 
 ### Creating a Playlist
-After making album selections, users are free to choose individual tracks to add to the playlist queue. The user may export this playlist with a discriptive title (ex. "Summer 2013", "First month of college", etc) to Spotify by pressing the "EXPORT PLAYLIST" button.
+After making album selections, users are free to choose individual tracks to add to the playlist queue. The user may export this playlist with a discriptive title (ex. "Summer 2013", "First month of college", etc) to Spotify by pressing the 'EXPORT PLAYLIST' button.
 <p align="center">
   <img src="https://media.giphy.com/media/mWHiQX6RNae6Gqh1iY/giphy.gif" width="430" height="300"/>
 </p>
