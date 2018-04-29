@@ -7,11 +7,9 @@
 Ex. What was I listening to when I moved in January?
 
 <p align="center">
-  <img src="" />
-  <iframe src="https://giphy.com/embed/11BAc68nPH6WaK11zM" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen>     </iframe>
+  <img src="https://giphy.com/embed/11BAc68nPH6WaK11zM" />
 </p>
 
-<iframe src="https://giphy.com/embed/11BAc68nPH6WaK11zM" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/11BAc68nPH6WaK11zM">via GIPHY</a></p>
 
 ## Built With
 
