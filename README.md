@@ -7,7 +7,7 @@
 Ex. What was I listening to when I moved in January?
 
 <p align="center">
-  <img src="https://media.giphy.com/media/11BAc68nPH6WaK11zM/giphy.gif" />
+  <img src="https://media.giphy.com/media/11BAc68nPH6WaK11zM/giphy.gif" height="200" width="400"/>
 </p>
 
 
