@@ -4,7 +4,7 @@
 
 # Introduction
 
-[Soundvision](http://www.spotifysoundvision.com) is a web-based visualization tool for exploring listening history and creating playlists. It creates an unique interactive timeline of saved music using D3 and the Spotify API. Users can brush over their history, select albums and tracks, and export playlists to Spotify.
+[Soundvision](http://www.spotifysoundvision.com) is a web-based visualization tool for exploring listening history and creating playlists. It creates a unique interactive timeline of saved music using D3 and the Spotify API. Users can brush over their history, select albums and tracks, and export playlists to Spotify.
 
 ## Usage
 
@@ -18,7 +18,7 @@
   <img src="https://media.giphy.com/media/3JURBBW6DYNqCKtATg/giphy.gif" width="430" height="300"/>
 </p>
 
-**Create Playlist**
+**Creating a Playlist**
 <p>
   <img src="https://media.giphy.com/media/mWHiQX6RNae6Gqh1iY/giphy.gif" width="430" height="300"/>
 </p>
