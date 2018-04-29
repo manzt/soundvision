@@ -4,14 +4,12 @@
 
 ## Usage
 
-Ex. What was I listening to when I moved in January?
-
 **Login**
 <p>
   <img src="https://media.giphy.com/media/fWfFZrUgTF7hmQSxjV/giphy.gif" width="430" height="300" />
 </p>
 
-**Selection**
+**Selection** (colors indicate the album was release date, binned by decade)
 <p>
   <img src="https://media.giphy.com/media/3JURBBW6DYNqCKtATg/giphy.gif" width="430" height="300"/>
 </p>
