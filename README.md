@@ -7,15 +7,19 @@
 Ex. What was I listening to when I moved in January?
 
 **Login**
-<p align="center">
+<p>
   <img src="https://media.giphy.com/media/fWfFZrUgTF7hmQSxjV/giphy.gif" width="430" height="300" />
 </p>
 
 **Selection**
-<img src="https://media.giphy.com/media/3JURBBW6DYNqCKtATg/giphy.gif" width="430" height="300"/>
+<p>
+  <img src="https://media.giphy.com/media/3JURBBW6DYNqCKtATg/giphy.gif" width="430" height="300"/>
+</p>
 
 **Create Playlist**
-<img src="https://media.giphy.com/media/mWHiQX6RNae6Gqh1iY/giphy.gif" width="430" height="300"/>
+<p>
+  <img src="https://media.giphy.com/media/mWHiQX6RNae6Gqh1iY/giphy.gif" width="430" height="300"/>
+</p>
 
 
 
