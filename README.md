@@ -8,7 +8,7 @@ Ex. What was I listening to when I moved in January?
 
 **Login**
 <p align="center">
-  <img src="https://media.giphy.com/media/fWfFZrUgTF7hmQSxjV/giphy.gif" width="25" height="25" />
+  <img src="https://media.giphy.com/media/fWfFZrUgTF7hmQSxjV/giphy.gif" width="430" height="300" />
 </p>
 
 **Selection**
