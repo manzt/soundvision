@@ -9,7 +9,7 @@
   <img src="https://media.giphy.com/media/fWfFZrUgTF7hmQSxjV/giphy.gif" width="430" height="300" />
 </p>
 
-**Selection** (colors indicate the album was release date, binned by decade)
+**Selection** (Color indicates the decade of album release)
 <p>
   <img src="https://media.giphy.com/media/3JURBBW6DYNqCKtATg/giphy.gif" width="430" height="300"/>
 </p>
