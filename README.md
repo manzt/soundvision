@@ -15,7 +15,7 @@ Login is handled using PassportJS for Spotify OAuth, creating a user and passing
 </p>
 
 ### Selection
-Each selectable node represents an album in the user's Spotify Library and the date which it was saved. On mouseover, a tooltip apears with basic album information. Clicking on a node adds the album with its tracks to a queue at the bottom of the page. You may deselect these elements by toggling nodes individually or pressing 'CLEAR SELECTIONS' button. 
+The brush in the bottom visual is used to select the range for the top section. Each selectable node represents an album in the user's Spotify Library and the date which it was saved. On mouseover, a tooltip apears with basic album information. Clicking on a node adds the album with its tracks to a queue at the bottom of the page. You may deselect these elements by toggling nodes individually or pressing 'CLEAR SELECTIONS' button.
 <p align="center">
   <img src="https://media.giphy.com/media/3JURBBW6DYNqCKtATg/giphy.gif" width="430" height="300"/>
 </p>
