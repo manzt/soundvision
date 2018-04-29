@@ -66,6 +66,9 @@ class Playlist extends React.Component {
             />
             <div>
               <IconButton
+                tooltip='CLEAR SELECTIONS'
+                tooltipPosition='top-right'
+                tooltipStyles={{fontSize: '8px'}}
                 iconStyle={styles.icon2}
                 disableTouchRipple={true}
                 onClick={() => {
@@ -86,9 +89,9 @@ class Playlist extends React.Component {
                   />}
               </IconButton>
               <IconButton
-                // tooltip='UPDATE LIBRARY'
-                // tooltipPosition='top-right'
-                // tooltipStyles={{fontSize: '8px'}}
+                tooltip='UPDATE LIBRARY'
+                tooltipPosition='top-right'
+                tooltipStyles={{fontSize: '8px'}}
                 disableTouchRipple={true}
                 iconStyle={styles.icon}
                 hoveredStyle={styles.hover}
@@ -104,9 +107,9 @@ class Playlist extends React.Component {
                 />
               </IconButton>
               <IconButton
-                // tooltip='CREATE PLAYLIST'
-                // tooltipPosition='top-right'
-                // tooltipStyles={{fontSize: '8px'}}
+                tooltip='EXPORT PLAYLIST'
+                tooltipPosition='top-right'
+                tooltipStyles={{fontSize: '8px'}}
                 iconStyle={styles.icon}
                 disableTouchRipple={true}
                 hoveredStyle={{color: checkedColor}}
