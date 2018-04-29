@@ -7,9 +7,8 @@
 Ex. What was I listening to when I moved in January?
 
 <p align="center">
-  <img src="https://giphy.com/embed/11BAc68nPH6WaK11zM" />
+  <img src="https://media.giphy.com/media/11BAc68nPH6WaK11zM/giphy.gif" />
 </p>
-![Alt Text](https://giphy.com/embed/11BAc68nPH6WaK11zM)
 
 
 
