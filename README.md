@@ -6,14 +6,6 @@ Soundvision is a web-based visualization tool for exploring listening history an
 
 Ex. What was I listening to when I moved in January?
 
-
-
-
-### Tech Stack
-
-Frontend: React & D3.js
-Backend: Node.js & MongoDB
-
 ## Built With
 
 * [React](https://reactjs.org/) - Frontend
