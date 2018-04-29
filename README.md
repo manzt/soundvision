@@ -6,10 +6,20 @@
 
 Ex. What was I listening to when I moved in January?
 
+**Login**
+<p align="center">
+  <img src="https://media.giphy.com/media/fWfFZrUgTF7hmQSxjV/giphy.gif"/>
+</p>
+
+**Selection**
+<p align="center">
+  <img src="https://media.giphy.com/media/3JURBBW6DYNqCKtATg/giphy.gif"/>
+</p>
+
+**Create Playlist**
 <p align="center">
   <img src="https://media.giphy.com/media/mWHiQX6RNae6Gqh1iY/giphy.gif"/>
 </p>
-
 
 
 
