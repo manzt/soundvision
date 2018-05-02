@@ -1,4 +1,3 @@
-"use strict"
 const express = require('express');
 const router = express.Router();
 const _ = require('underscore');
@@ -36,7 +35,6 @@ module.exports = function() {
 
   router.use(function(req, res, next) {
     if (! req.user) {
-      return next();
       res.redirect('/');
     } else {
       next();
