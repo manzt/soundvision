@@ -63,7 +63,6 @@ module.exports = function() {
       clientSecret: client_secret,
       redirectUri: redirect_uri,
       accessToken: req.user.accessToken.toString(),
-      refreshToken: req.user.refreshToken.toString()
     });
     try {
       //clear current stored library
@@ -95,7 +94,6 @@ module.exports = function() {
       clientSecret: client_secret,
       redirectUri: redirect_uri,
       accessToken: req.user.accessToken.toString(),
-      refreshToken: req.user.refreshToken.toString()
     });
     try {
       const tracks = req.body.tracks.map(trackid => 'spotify:track:' + trackid);
